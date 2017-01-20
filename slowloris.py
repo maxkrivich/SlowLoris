@@ -95,7 +95,7 @@ def ex(signal, frame):
 	sys.exit(0)
 
 def main():
-	if sys.argv < 2:
+	if len(sys.argv) < 2:
 		print 'Usage: \n -u \t http://www.google.com [str]\n -s \t socket count [int]'
 		exit()
 	else:
