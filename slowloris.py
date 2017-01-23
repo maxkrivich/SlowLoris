@@ -34,7 +34,7 @@ def parseArgs():
 	if arg.u:
 		URL = arg.u
 	else:
-		exit()
+		sys.exit(-1)
 
 def createSocket():
 	res = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -97,7 +97,7 @@ def ex(signal, frame):
 def main():
 	if len(sys.argv) < 2:
 		print 'Usage: \n -u \t http://www.google.com [str]\n -s \t socket count [int]'
-		exit()
+		sys.exit(-1)
 	else:
 		signal.signal(signal.SIGINT, ex)
 		parseArgs()
