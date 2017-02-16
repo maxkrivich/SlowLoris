@@ -12,6 +12,7 @@ $ ./slowloris.py -u <URL> -s <Socket Count>
 * multithreading
 * handle different exception
 * increase productivity
+* true logging
 
 License
 ----

