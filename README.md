@@ -8,7 +8,7 @@ More information you can find [here].
 ### Usage
 
 ```
-slowloris [-h] [-u URL] [-s SOCKET_COUNT] [-m MODE_LOG]
+slowloris [-h] [-u URL] [-p PORT] [-s SOCKET_COUNT] [-m MODE_LOG]
 ```
 
 Options                                         | Description
