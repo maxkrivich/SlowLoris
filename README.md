@@ -1,6 +1,6 @@
 # SlowLoris
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat-square)](https://gitter.im/SlowLoris-dev/Lobby)
-[![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat-square)]()
+[![License](https://img.shields.io/badge/license-MIT%20license-green.svg?style=flat-square)]()
 [![Python](https://img.shields.io/badge/python-2.7-blue.svg?style=flat-square)]()
 [![Build Status](https://travis-ci.org/maxkrivich/SlowLoris.svg?branch=master&style=flat-square)](https://travis-ci.org/maxkrivich/SlowLoris)
 [![Coverage Status](https://coveralls.io/repos/github/maxkrivich/SlowLoris/badge.svg?branch=master&style=flat-square)](https://coveralls.io/github/maxkrivich/SlowLoris?branch=master)
@@ -35,8 +35,10 @@ $ pip install -r requirements.txt
 ```
 
 ### TODO list
-* add proxy, multiple headers(useragent and other).
-* true logging
+- [ ] add proxy, multiple headers(useragent and other).
+- [ ] add logging
+- [ ] add ssl support
+- [ ] add file list attack
 
 If you find [bugs] or have [suggestions] about improving the module, don't hesitate to contact [me].
 
@@ -44,6 +46,7 @@ License
 ----
 
 Copyright (c) 2017-present Maxim Krivich
+
 Licensed under the MIT License
 
 

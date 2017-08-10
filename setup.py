@@ -17,5 +17,7 @@ setup(
     author_email='maxkrivich@gmail.com',
     description='Small and simple tool for testing Slow Loris vulnerability.',
     install_requires=requirements,
-    keywords=['SlowLoris','ddos','slowloris','ddos','apache','ddos-attacks','denial-of-service','http','exploit','ddos-tool','hacker-scripts','hacking-tool','hacking','vulnerability','slow-requests','cybersecurity','cyber-security','information-security','security','server'],
+    keywords=['SlowLoris', 'ddos', 'slowloris', 'ddos', 'apache', 'ddos-attacks', 'denial-of-service', 'http',
+              'exploit', 'ddos-tool', 'hacker-scripts', 'hacking-tool', 'hacking', 'vulnerability', 'slow-requests',
+              'cybersecurity', 'cyber-security', 'information-security', 'security', 'server'],
 )
