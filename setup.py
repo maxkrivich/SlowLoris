@@ -8,8 +8,8 @@ with open('requirements.txt') as f:
 
 setup(
     name='SlowLoris',
-    version='1.2',
-    packages=['slowloris'],
+    version='0.1.2',
+    packages=['SlowLoris'],
     url='https://github.com/maxkrivich/slowloris/',
     download_url='',
     license='MIT',
@@ -20,4 +20,19 @@ setup(
     keywords=['SlowLoris', 'ddos', 'slowloris', 'ddos', 'apache', 'ddos-attacks', 'denial-of-service', 'http',
               'exploit', 'ddos-tool', 'hacker-scripts', 'hacking-tool', 'hacking', 'vulnerability', 'slow-requests',
               'cybersecurity', 'cyber-security', 'information-security', 'security', 'server'],
+    classifiers=[
+        'Development Status :: 0.1.2 - Beta',
+        'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.2',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+    ],
+    entry_points={
+        'console_scripts':['SlowLoris=cli:main'],
+    }
 )

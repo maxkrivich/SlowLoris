@@ -1,9 +1,10 @@
 # SlowLoris
-[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat-square)](https://gitter.im/SlowLoris-dev/Lobby)
-[![License](https://img.shields.io/badge/license-MIT%20license-green.svg?style=flat-square)]()
-[![Python](https://img.shields.io/badge/python-2.7-blue.svg?style=flat-square)]()
-[![Build Status](https://travis-ci.org/maxkrivich/SlowLoris.svg?branch=master&style=flat-square)](https://travis-ci.org/maxkrivich/SlowLoris)
-[![Coverage Status](https://coveralls.io/repos/github/maxkrivich/SlowLoris/badge.svg?branch=master&style=flat-square)](https://coveralls.io/github/maxkrivich/SlowLoris?branch=master)
+[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/SlowLoris-dev/Lobby)
+[![License](https://img.shields.io/badge/license-MIT%20license-green.svg)]()
+[![Python](https://img.shields.io/badge/python-2.7-blue.svg)]()
+[![Build Status](https://travis-ci.org/maxkrivich/SlowLoris.svg?branch=master)](https://travis-ci.org/maxkrivich/SlowLoris)
+[![Coverage Status](https://coveralls.io/repos/github/maxkrivich/SlowLoris/badge.svg?branch=master)](https://coveralls.io/github/maxkrivich/SlowLoris?branch=master)
+[![Requirements Status](https://requires.io/github/maxkrivich/SlowLoris/requirements.svg?branch=master)](https://requires.io/github/maxkrivich/SlowLoris/requirements/?branch=master)
 
 
 This repository was created for testing Slow Loris vulnerability on different web servers. SL based on keeping alive open connection as long as possible and sending some trash headers to the server. If you are interested what I'm trying doing here, please join my team and let's do fun together. Please DO NOT use this in the real attacks on the servers.
@@ -14,8 +15,8 @@ More information you can find [here].
 
 ### Usage
 
-```
-slowloris [-h] [-u URL] [-p PORT] [-s SOCKET_COUNT] [-m MODE_LOG]
+```sh
+$ slowloris [-h] [-u URL] [-p PORT] [-s SOCKET_COUNT] [-m MODE_LOG]
 ```
 
 Options                                         | Description
@@ -45,7 +46,7 @@ If you find [bugs] or have [suggestions] about improving the module, don't hesit
 License
 ----
 
-Copyright (c) 2017-present Maxim Krivich
+Copyright (c) 2017 Maxim Krivich, https://maxkrivich.github.io/
 
 Licensed under the MIT License
 
