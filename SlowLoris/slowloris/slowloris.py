@@ -74,8 +74,7 @@ class SlowLoris(Thread):
             sys.exit(-1)
         self.__sockets = []
         self.__sended_request_cnt = 0
-        self.__died_sockets_cnt = 0
-        self.__alive_socket_cnt = 0
+
         self.is_stop = False
 
     def __del__(self):
