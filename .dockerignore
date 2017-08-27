@@ -91,7 +91,15 @@ ENV/
 ### JetBrains ###
 .idea/
 
+### Logs ###
 logs/
 
-
 SlowLoris.egg-info/
+
+### Docker ###
+.git
+.github
+tests/
+Dockerfile
+.gitignore
+README.md

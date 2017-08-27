@@ -45,7 +45,11 @@ setup(
               'exploit', 'ddos-tool', 'hacker-scripts', 'hacking-tool', 'hacking', 'vulnerability', 'slow-requests',
               'cybersecurity', 'cyber-security', 'information-security', 'security', 'server'],
     classifiers=[
+        'Natural Language :: English',
         'Development Status :: 0.1.2 - Beta',
+        'Intended Audience :: End Users/Desktop',
+        'Intended Audience :: Developers',
+        'Intended Audience :: System Administrators',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
@@ -57,6 +61,6 @@ setup(
         'Programming Language :: Python :: 3.6',
     ],
     entry_points={
-        'console_scripts':['SlowLoris=cli:main'],
+        'console_scripts':['slowloris=SlowLoris.cli:main'],
     }
 )

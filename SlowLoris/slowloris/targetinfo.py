@@ -25,7 +25,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-
+import re
+import socket
 import requests
 
 from SlowLoris import logger
@@ -35,7 +36,7 @@ class TargetNotExistException(Exception):
     pass
 
 
-class TragetInfo(object):
+class TargetInfo(object):
     def __init__(self, url, port):
         self.url = url
         self.port = port
@@ -43,7 +44,7 @@ class TragetInfo(object):
         self.ip = None
         self.is_checked = False
 
-    def __getattr__(self, item):
+    def __getitem__(self, item):
         return self.__dict__[item]
 
     def __repr__(self):
@@ -55,10 +56,10 @@ class TragetInfo(object):
     def get_info(self):
         if not self.is_checked:
             try:
-                r = requests.get(self.url, timeout=(10, 0.0001))
+                r = requests.get(self.url, timeout=(10, 1))
                 if r.status_code == 200:
                     self.server = r.headers['Server']
-                elif r.status_code / 100 >= 4:
+                elif r.status_code >= 400:
                     raise TargetNotExistException(self.url)
             except requests.exceptions.ReadTimeout as rt:
                 logger.exception(rt)
@@ -68,3 +69,11 @@ class TragetInfo(object):
                 logger.exception(tne)
             except Exception as e:
                 logger.exception(e)
+
+            try:
+                url = re.compile(r"https?://(www\.)?")
+                self.ip = socket.gethostbyname(url.sub('', self.url).strip().strip('/'))
+            except socket.gaierror as err:
+                logger.exception(err)
+
+            self.is_checked = True

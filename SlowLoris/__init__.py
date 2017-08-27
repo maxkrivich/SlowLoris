@@ -28,11 +28,14 @@ SOFTWARE.
 __author__ = 'maxkrivich'
 __version__ = '0.1.2'
 
-import logging
+import json
+import logging.config
 
 # setup logger
-logger = logging.getLogger('SlowLoris')
-logging.config.fileConfig('logging.ini')
+logger = logging.getLogger(__name__)
+with open('.logging.json', 'rt') as f:
+    config = json.load(f)
+    logging.config.dictConfig(config)
 
-from .slowloris.slowloris import SlowLoris
-from .slowloris.targetinfo import TragetInfo, TargetNotExistException
+from .slowloris import SlowLoris
+from .slowloris import TargetInfo, TargetNotExistException

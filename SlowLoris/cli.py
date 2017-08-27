@@ -27,10 +27,10 @@ SOFTWARE.
 
 import re
 import sys
+import datetime
 import argparse
 
-from SlowLoris import logger
-from SlowLoris import TragetInfo
+from SlowLoris import TargetInfo
 from signal import signal, SIGABRT, SIGILL, SIGINT, SIGSEGV, SIGTERM
 
 __all__ = ["main"]
@@ -51,7 +51,8 @@ def init():
 def validate_url(url):
     regex = re.compile(
         r'^(?:http|ftp)s?://'  # http:// or https://
-        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'  # domain...
+        # domain...
+        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'
         r'localhost|'  # localhost...
         r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'  # ...or ip
         r'(?::\d+)?'  # optional port
@@ -60,12 +61,14 @@ def validate_url(url):
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(add_help=True, description="Small and simple tool for testing Slow Loris vulnerability")
+    parser = argparse.ArgumentParser(
+        add_help=True, description="Small and simple tool for testing Slow Loris vulnerability")
     parser.add_argument("-u", "--url", action="store", type=str,
                         help="Link to the web server (http://google.com) - str")
     parser.add_argument("-s", "--socket-count", default=300, action="store", type=int,
                         help="Maximum count of created connection (default value 300) - int")
-    parser.add_argument("-p", "--port", default=80, action="store", type=int, help="Port what will be used - int")
+    parser.add_argument("-p", "--port", default=80, action="store",
+                        type=int, help="Port what will be used - int")
     # parser.add_argument("-l", "--list", action="store", type=str, help="") # TODO write list of sites
 
     if len(sys.argv) == 1:
@@ -78,8 +81,7 @@ def parse_args():
 
     if args.url:
         if validate_url(args.url):
-            url = re.compile(r"https?://(www\.)?")
-            res["url"] = url.sub('', args.url).strip().strip('/')
+            res["url"] = args.url
         else:
             parser.print_help()
             sys.exit(-1)
@@ -102,11 +104,26 @@ def parse_args():
     return res
 
 
+def print_table(table):
+    col_width = [max(len(x) for x in col) for col in zip(*table)]
+    for line in table:
+        print("[*] " + " \t ".join("{:{}}".format(x, col_width[i]) for i, x in enumerate(line)))
+
+
+def print_info(target):
+    target.get_info()
+
+    table = [('Target IP:', target['ip']), ('Target Hostname:', target['url']), ('Target Server:', target['server']),
+             ('Target Port', str(target['port'])), ('Launch Time:', datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))]
+
+    print_table(table)
+
+
 def main():
     init()
     args = parse_args()
-    target = TragetInfo(url=args['url'], port=args['port'])
-    # print target info
+    target = TargetInfo(url=args['url'], port=args['port'])
+    print_info(target)
     # launch slowloris
 
 
