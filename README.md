@@ -1,6 +1,6 @@
 # SlowLoris
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/SlowLoris-dev/Lobby)
-[![License](https://img.shields.io/badge/license-MIT%20license-green.svg)]()
+[![License](https://img.shields.io/badge/license-MIT%20license-orange.svg)](https://github.com/maxkrivich/SlowLoris/blob/master/LICENSE)
 [![Python](https://img.shields.io/badge/python-2.7-blue.svg)]()
 [![Build Status](https://travis-ci.org/maxkrivich/SlowLoris.svg?branch=master)](https://travis-ci.org/maxkrivich/SlowLoris)
 [![Coverage Status](https://coveralls.io/repos/github/maxkrivich/SlowLoris/badge.svg?branch=master)](https://coveralls.io/github/maxkrivich/SlowLoris?branch=master)
@@ -16,7 +16,7 @@ More information you can find [here].
 ### Usage
 
 ```sh
-$ slowloris [-h] [-u URL] [-p PORT] [-s SOCKET_COUNT] [-m MODE_LOG]
+$ slowloris [-h] [-u URL] [-p PORT] [-s SOCKET_COUNT]
 ```
 
 Options                                         | Description
