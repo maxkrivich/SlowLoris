@@ -1,4 +1,4 @@
-#! venv/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -60,7 +60,6 @@ def validate_url(url):
 
 
 def parse_args():
-    # TODO write description
     parser = argparse.ArgumentParser(add_help=True, description="Small and simple tool for testing Slow Loris vulnerability")
     parser.add_argument("-u", "--url", action="store", type=str,
                         help="Link to the web server (http://google.com) - str")
@@ -68,8 +67,6 @@ def parse_args():
                         help="Maximum count of created connection (default value 300) - int")
     parser.add_argument("-p", "--port", default=80, action="store", type=int, help="Port what will be used - int")
     # parser.add_argument("-l", "--list", action="store", type=str, help="") # TODO write list of sites
-    # parser.add_argument("-m", "--mode-log", default=2, action="store", type=int,
-    #                     help="Logging mode (0-stdout, 1-file & stdout, 2-null) - int")
 
     if len(sys.argv) == 1:
         parser.print_help()
@@ -106,6 +103,7 @@ def parse_args():
 
 
 def main():
+    init()
     args = parse_args()
     target = TragetInfo(url=args['url'], port=args['port'])
     # print target info

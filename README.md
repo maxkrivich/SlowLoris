@@ -25,7 +25,6 @@ Options                                         | Description
 -u URL, --url URL                               | Link to the web server (http://google.com) - str
 -p PORT, --port PORT                            | Port what will be used - int
 -s SOCKET_COUNT, --socket-count  SOCKET_COUNT   | Maximum count of created connection (default value 300) - int
--m MODE_LOG, --mode-log MODE_LOG                | Logging mode (0-stdout, 1-file & stdout, 2-null) - int
 
 ###### stop: Ctrl + C
 
@@ -37,7 +36,7 @@ $ pip install -r requirements.txt
 
 ### TODO list
 - [ ] add proxy, multiple headers(useragent and other).
-- [ ] add logging
+- [x] add logging
 - [ ] add ssl support
 - [ ] add file list attack
 
