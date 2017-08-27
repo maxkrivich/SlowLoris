@@ -15,10 +15,6 @@ More information you can find [here].
 
 ### Usage
 
-```sh
-$ slowloris [-h] [-u URL] [-p PORT] [-s SOCKET_COUNT]
-```
-
 Options                                         | Description
 ------------------------------------------------|--------------
 -h, --help                                      | Show help message
@@ -26,12 +22,22 @@ Options                                         | Description
 -p PORT, --port PORT                            | Port what will be used - int
 -s SOCKET_COUNT, --socket-count  SOCKET_COUNT   | Maximum count of created connection (default value 300) - int
 
-###### stop: Ctrl + C
+#### Command line
+```sh
+$ slowloris [-h] [-u URL] [-p PORT] [-s SOCKET_COUNT]
+```
 
-### Install requirements
+#### Docker
+```sh 
+$ docker pull maxkrivich/slowloris:latest [no working!!!!!]
+```
+
+###### stop execution: Ctrl + C
+
+### Install module
 
 ```sh
-$ pip install -r requirements.txt
+$ pip setup.py install
 ```
 
 ### TODO list
@@ -39,6 +45,7 @@ $ pip install -r requirements.txt
 - [x] add logging
 - [ ] add ssl support
 - [ ] add file list attack
+- [ ] add docker image to docker hub
 
 If you find [bugs] or have [suggestions] about improving the module, don't hesitate to contact [me].
 
