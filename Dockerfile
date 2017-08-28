@@ -1,6 +1,6 @@
 # I'm not sure what it is right
 
-MAINTAINER Max Krivich (maxkrivich@gmail.com)
+LABEL maintainer="Max Krivich"
 
 FROM ubuntu:14.04
 
@@ -17,4 +17,8 @@ WORKDIR /app
 
 RUN python setup.py install
 
-#CMD with args from docker run
+#EXPOSE 80
+
+ENTRYPOINT ["slowloris"]
+
+CMD ["-h"]
