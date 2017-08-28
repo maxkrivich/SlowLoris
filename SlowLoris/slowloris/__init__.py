@@ -22,5 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from .slowloris import SlowLoris
+from .connection import Connection
+from .slowloris import SlowLorisAttack
+from .pingtest import NetworkLatencyBenchmark
 from .targetinfo import TargetInfo, TargetNotExistException

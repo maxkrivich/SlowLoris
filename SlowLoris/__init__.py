@@ -37,5 +37,8 @@ with open('.logging.json', 'rt') as f:
     config = json.load(f)
     logging.config.dictConfig(config)
 
-from .slowloris import SlowLoris
+from .slowloris import SlowLorisAttack
+from .slowloris import NetworkLatencyBenchmark
 from .slowloris import TargetInfo, TargetNotExistException
+
+

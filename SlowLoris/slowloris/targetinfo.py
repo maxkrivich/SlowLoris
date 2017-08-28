@@ -39,6 +39,7 @@ class TargetNotExistException(Exception):
 class TargetInfo(object):
     def __init__(self, url, port):
         self.url = url
+        self.url_c = None
         self.port = port
         self.server = None
         self.ip = None
@@ -56,15 +57,13 @@ class TargetInfo(object):
     def get_info(self):
         if not self.is_checked:
             try:
-                r = requests.get(self.url, timeout=(10, 1))
+                r = requests.get(self.url, timeout=(10, 3))
                 if r.status_code == 200:
                     self.server = r.headers['Server']
                 elif r.status_code >= 400:
                     raise TargetNotExistException(self.url)
             except requests.exceptions.ReadTimeout as rt:
                 logger.exception(rt)
-            except requests.exceptions.ConnectTimeout as ct:
-                logger.exception(ct)
             except TargetNotExistException as tne:
                 logger.exception(tne)
             except Exception as e:
@@ -72,7 +71,8 @@ class TargetInfo(object):
 
             try:
                 url = re.compile(r"https?://(www\.)?")
-                self.ip = socket.gethostbyname(url.sub('', self.url).strip().strip('/'))
+                self.url_c = url.sub('', self.url).strip().strip('/')
+                self.ip = socket.gethostbyname(self.url_c)
             except socket.gaierror as err:
                 logger.exception(err)
 

