@@ -46,7 +46,7 @@ setup(
               'cybersecurity', 'cyber-security', 'information-security', 'security', 'server'],
     classifiers=[
         'Natural Language :: English',
-        'Development Status :: 0.1.2 - Beta',
+        'Development Status :: 0.1.2 - BetaEnvironment',
         'Intended Audience :: End Users/Desktop',
         'Intended Audience :: Developers',
         'Intended Audience :: System Administrators',
