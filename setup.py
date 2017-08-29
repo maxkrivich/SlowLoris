@@ -35,7 +35,7 @@ from setuptools import setup, find_packages, Command
 here = os.path.abspath(os.path.dirname(__file__))
 
 NAME = 'PySlowLoris'
-DESCRIPTION = 'Small and simple tool for testing Slow Loris vulnerability.'
+DESCRIPTION = 'Small and simple tool for testing Slow Loris vulnerability'
 URL = 'https://github.com/maxkrivich/slowloris/'
 EMAIL = 'maxkrivich@gmail.com'
 AUTHOR = 'Maxim Krivich'
@@ -44,9 +44,15 @@ ABOUT = {}
 with open(os.path.join(here, NAME, '__version__.py')) as f:
     exec (f.read(), ABOUT)
 
-with codecs.open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
-    LONG_DESCRIPTION = '\n'.join(line for line in f
-                                 if not line.startswith('..')) + '\n'
+
+readme_file = os.path.join(here, 'README.md')
+try:
+    from m2r import parse_from_file
+    LONG_DESCRIPTION = parse_from_file(readme_file)
+except ImportError:
+    with open(readme_file) as f:
+        LONG_DESCRIPTION = f.read()
+
 
 with codecs.open(os.path.join(here, 'requirements.txt'), encoding='utf-8') as f:
     REQUIREMENTS = f.read().splitlines()

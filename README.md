@@ -18,11 +18,11 @@ More information you can find [here].
 Options                                         | Description
 ------------------------------------------------|--------------
 -h, --help                                      | Show help message
--u URL, --url URL                               | Link to the web server (http://google.com) - str
--p PORT, --port PORT                            | Port what will be used - int
--s SOCKET_COUNT, --socket-count  SOCKET_COUNT   | Maximum count of created connection (default value 300) - int
+-u URL, --url                                   | Link to the web server (http://google.com) - str
+-p PORT, --port                                 | Port what will be used - int
+-s SOCKET_COUNT, --socket-count                 | Maximum count of created connection (default value 300) - int
 
-#### Command line
+
 ```sh
 $ slowloris [-h] [-u URL] [-p PORT] [-s SOCKET_COUNT]
 ```
@@ -32,7 +32,7 @@ $ slowloris [-h] [-u URL] [-p PORT] [-s SOCKET_COUNT]
 ### Install module
 
 ```sh
-$ pip setup.py install
+$ pip install pyslowloris
 ```
 
 ### TODO list
@@ -45,9 +45,7 @@ $ pip setup.py install
 If you find [bugs] or have [suggestions] about improving the module, don't hesitate to contact [me].
 
 
-## License
-
-
+### License
 Copyright (c) 2017 Maxim Krivich, https://maxkrivich.github.io/
 
 Licensed under the MIT License
