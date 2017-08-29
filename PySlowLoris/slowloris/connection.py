@@ -32,7 +32,7 @@ import threading
 
 
 from Queue import Queue
-from SlowLoris import logger
+from PySlowLoris import logger
 from fake_useragent import UserAgent, FakeUserAgentError
 
 

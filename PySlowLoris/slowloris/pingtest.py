@@ -29,7 +29,7 @@ from math import sqrt
 
 import pexpect
 
-from SlowLoris import logger
+from PySlowLoris import logger
 
 
 class NetworkLatencyBenchmark(object):

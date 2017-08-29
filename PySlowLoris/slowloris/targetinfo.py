@@ -29,7 +29,7 @@ import re
 import socket
 import requests
 
-from SlowLoris import logger
+from PySlowLoris import logger
 
 
 class TargetNotExistException(Exception):

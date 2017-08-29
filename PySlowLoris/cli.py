@@ -33,7 +33,7 @@ import threading
 import time
 from signal import signal, SIGABRT, SIGILL, SIGINT, SIGSEGV, SIGTERM
 
-from SlowLoris import TargetInfo, SlowLorisAttack
+from PySlowLoris import TargetInfo, SlowLorisAttack
 
 __all__ = ["main"]
 
@@ -76,7 +76,7 @@ def validate_url(url):
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        add_help=True, description="Small and simple tool for testing Slow Loris vulnerability")
+        add_help=True, description="Small and simple tool for testing Slow Loris vulnerability\n\n@maxkrivich")
     parser.add_argument("-u", "--url", action="store", type=str,
                         help="Link to the web server (http://google.com) - str")
     parser.add_argument("-s", "--socket-count", default=300, action="store", type=int,

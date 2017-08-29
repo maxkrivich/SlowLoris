@@ -35,15 +35,14 @@ import subprocess as sub
 from Queue import Queue
 from threading import Thread
 
-from SlowLoris import TragetInfo
-from SlowLoris import SlowLoris
+from PySlowLoris import TargetInfo
 
 __all__ = ['test_sl', 'test_sl_multi']
 
 
 class TestTargetInfo(unittest.TestCase):
     def test_target_ok(self):
-        t = TragetInfo(url="https://google.com", port=80)
+        t = TargetInfo(url="https://google.com", port=80)
         t.get_info()
         self.assertNotEquals(t['Server'], '')
 

@@ -26,7 +26,7 @@ SOFTWARE.
 """
 
 from .connection import Connection
-from SlowLoris import logger
+from PySlowLoris import logger
 
 
 class SlowLorisAttack(object):
