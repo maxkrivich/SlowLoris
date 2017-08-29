@@ -24,15 +24,25 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
+import io
+import os
 
 from setuptools import setup
 
 with open('requirements.txt') as f:
     requirements = f.read().splitlines()
 
+
+def read(*parts):
+    filename = os.path.join(os.path.abspath(os.path.dirname(__file__)), *parts)
+
+    with io.open(filename, encoding='utf-8', mode='rt') as fp:
+        return fp.read()
+
+
 setup(
-    name='SlowLoris',
-    version='0.1.2',
+    name='PySlowLoris',
+    version='0.1.4',
     packages=['SlowLoris'],
     url='https://github.com/maxkrivich/slowloris/',
     download_url='',
@@ -40,13 +50,13 @@ setup(
     author='Maxim Krivich',
     author_email='maxkrivich@gmail.com',
     description='Small and simple tool for testing Slow Loris vulnerability.',
+    long_description=read('README.rst'),
     install_requires=requirements,
     keywords=['SlowLoris', 'ddos', 'slowloris', 'ddos', 'apache', 'ddos-attacks', 'denial-of-service', 'http',
               'exploit', 'ddos-tool', 'hacker-scripts', 'hacking-tool', 'hacking', 'vulnerability', 'slow-requests',
               'cybersecurity', 'cyber-security', 'information-security', 'security', 'server'],
     classifiers=[
         'Natural Language :: English',
-        'Development Status :: 0.1.2 - BetaEnvironment',
         'Intended Audience :: End Users/Desktop',
         'Intended Audience :: Developers',
         'Intended Audience :: System Administrators',
@@ -61,6 +71,6 @@ setup(
         'Programming Language :: Python :: 3.6',
     ],
     entry_points={
-        'console_scripts':['slowloris=SlowLoris.cli:main'],
+        'console_scripts': ['slowloris=SlowLoris.cli:main'],
     }
 )
