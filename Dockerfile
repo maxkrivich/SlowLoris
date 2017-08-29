@@ -1,8 +1,8 @@
-# I'm not sure what it is right
-
-LABEL maintainer="Max Krivich"
+# docker build -t pyslowloris .
 
 FROM ubuntu:14.04
+
+LABEL maintainer="Max Krivich"
 
 RUN \
   apt-get update && \
