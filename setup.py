@@ -45,7 +45,8 @@ with open(os.path.join(here, NAME, '__version__.py')) as f:
     exec (f.read(), ABOUT)
 
 with codecs.open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
-    LONG_DESCRIPTION ='\n' + f.read()
+    LONG_DESCRIPTION = '\n'.join(line for line in f
+                                 if not line.startswith('..')) + '\n'
 
 with codecs.open(os.path.join(here, 'requirements.txt'), encoding='utf-8') as f:
     REQUIREMENTS = f.read().splitlines()
