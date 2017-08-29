@@ -1,4 +1,6 @@
-# docker build -t pyslowloris .
+# Quick tutorial how to build and run docker image
+# $ sudo docker build -t pyslowloris .
+# $ sudo docker run --rm -it pyslowloris [-h] [-u URL] [-p PORT] [-s SOCKET_COUNT]
 
 FROM ubuntu:14.04
 
@@ -9,15 +11,11 @@ RUN \
   apt-get -y upgrade && \
   apt-get install -y python python-pip python-dev
 
-#RUN pip install SlowLoris
-
 ADD . /app
 
 WORKDIR /app
 
 RUN python setup.py install
-
-#EXPOSE 80
 
 ENTRYPOINT ["slowloris"]
 
