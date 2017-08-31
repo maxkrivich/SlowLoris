@@ -8,7 +8,7 @@
 - [x] add docker image to docker hub;
 
 ### Bugs
-- [ ] crash app when url not exist;
+- [x] crash app when url not exist;
 - [ ] bug with timeouts;
 - [ ] logging errors;
 ---

