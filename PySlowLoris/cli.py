@@ -82,7 +82,7 @@ def parse_args():
     parser.add_argument("-s", "--socket-count", default=300, action="store", type=int,
                         help="Maximum count of created connection (default value 300) - int")
     parser.add_argument("-p", "--port", default=80, action="store",
-                        type=int, help="Port what will be used - int")
+                        type=int, help="Port what will be used - 1-65535")
     # parser.add_argument("-l", "--list", action="store", type=str, help="") # TODO write list of sites
 
     if len(sys.argv) == 1:
@@ -109,7 +109,7 @@ def parse_args():
         parser.print_help()
         sys.exit(-1)
 
-    if 0 <= args.port <= 65535:
+    if 0 < args.port <= 65535:
         res["port"] = args.port
     else:
         parser.print_help()
