@@ -25,4 +25,44 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-__version__ = '0.1.30'
+__author__ = 'maxkrivich'
+
+import logging.config
+
+# setup logger
+logger = logging.getLogger(__name__)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'standard': {
+            'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
+        },
+    },
+    'handlers': {
+        'default': {
+            'level': 'INFO',
+            'formatter': 'standard',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        '': {
+            'handlers': ['default'],
+            'level': 'INFO',
+            'propagate': True
+        },
+        'django.request': {
+            'handlers': ['default'],
+            'level': 'WARN',
+            'propagate': False
+        },
+    }
+}
+
+logging.config.dictConfig(LOGGING)
+
+from .slowloris import SlowLorisAttack
+from .slowloris import NetworkLatencyBenchmark
+from .slowloris import TargetInfo, TargetNotExistException
