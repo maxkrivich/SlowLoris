@@ -41,18 +41,17 @@ EMAIL = 'maxkrivich@gmail.com'
 AUTHOR = 'Maxim Krivich'
 
 ABOUT = {}
+
 with open(os.path.join(here, NAME, '__version__.py')) as f:
     exec (f.read(), ABOUT)
-
 
 readme_file = os.path.join(here, 'README.md')
 try:
     from m2r import parse_from_file
     LONG_DESCRIPTION = parse_from_file(readme_file)
 except ImportError:
-    with open(readme_file) as f:
+    with codecs.open(readme_file, encoding='utf-8') as f:
         LONG_DESCRIPTION = f.read()
-
 
 with codecs.open(os.path.join(here, 'requirements.txt'), encoding='utf-8') as f:
     REQUIREMENTS = f.read().splitlines()

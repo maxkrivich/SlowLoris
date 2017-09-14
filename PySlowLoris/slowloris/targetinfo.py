@@ -28,6 +28,7 @@ SOFTWARE.
 import re
 import socket
 import requests
+from urllib3.exceptions import NewConnectionError
 
 from PySlowLoris import logger
 
@@ -52,22 +53,18 @@ class TargetInfo(object):
         return str(self)
 
     def __str__(self):
-        return '{url}:{port}'.format(url=self.url, port=self.port)
+        return '{url}:{port}'.format(url=self.url.rstrip('/'), port=self.port)
 
     def get_info(self):
         if not self.is_checked:
             try:
-                r = requests.get(self.url, timeout=(10, 3))
+                r = requests.get(str(self), timeout=(10, 3))
                 if r.status_code == 200:
                     self.server = r.headers['Server']
                 elif r.status_code >= 400:
                     raise TargetNotExistException(self.url)
             except requests.exceptions.ReadTimeout as rt:
                 logger.exception(rt)
-            except TargetNotExistException as tne:
-                logger.exception(tne)
-            except Exception as e:
-                logger.exception(e)
 
             try:
                 url = re.compile(r"https?://(www\.)?")
@@ -75,5 +72,7 @@ class TargetInfo(object):
                 self.ip = socket.gethostbyname(self.url_c)
             except socket.gaierror as err:
                 logger.exception(err)
+            except NewConnectionError:
+                raise TargetNotExistException(self.url)
 
             self.is_checked = True
