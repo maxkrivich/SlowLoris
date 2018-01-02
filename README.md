@@ -6,6 +6,7 @@
 [![Requirements Status](https://requires.io/github/maxkrivich/SlowLoris/requirements.svg?branch=master)](https://requires.io/github/maxkrivich/SlowLoris/requirements/?branch=master)
 [![Code Health](https://landscape.io/github/maxkrivich/SlowLoris/master/landscape.svg?style=flat)](https://landscape.io/github/maxkrivich/SlowLoris/master)
 [![PyPI version](https://badge.fury.io/py/PySlowLoris.svg)](https://badge.fury.io/py/PySlowLoris)
+[![Help Contribute to Open Source](https://www.codetriage.com/maxkrivich/slowloris/badges/users.svg)](https://www.codetriage.com/maxkrivich/slowloris)
 
 This repository was created for testing Slow Loris vulnerability on different web servers. SL based on keeping alive open connection as long as possible and sending some trash headers to the server. If you are interested what I'm trying doing here, please join my team and let's do fun together. Please DO NOT use this in the real attacks on the servers.
 
