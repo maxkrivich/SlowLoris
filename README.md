@@ -43,8 +43,8 @@ $ pip install --editable .
 Pulling image from [Docker Hub](https://hub.docker.com/r/maxkrivich/pyslowloris/) and run container:
 
 ```sh
-$ docker pull maxkivich/pyslowloris
-$ docker run --rm -it maxkivich/pyslowloris [-h] [-u URL] [-p PORT] [-s SOCKET_COUNT]
+$ docker pull maxkrivich/pyslowloris
+$ docker run --rm -it maxkrivich/pyslowloris [-h] [-u URL] [-p PORT] [-s SOCKET_COUNT]
 ```
 
 Also you can build image from [Dockerfile](https://github.com/maxkrivich/SlowLoris/blob/master/Dockerfile) and run container: 
