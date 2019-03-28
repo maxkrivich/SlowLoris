@@ -33,7 +33,7 @@ In case you downloaded or cloned the source code from [GitHub](https://github.co
 ```sh
 $ git clone https://github.com/[username]/SlowLoris.git
 $ cd SlowLoris
-$ vitualenv --python=python[version] venv
+$ virtualenv --python=python[version] venv
 $ source venv/bin/active
 $ pip install --editable .
 ```
