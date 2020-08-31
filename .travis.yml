@@ -8,6 +8,8 @@ python:
 install:
   - pip install poetry
   - poetry install -v
+  - poetry export -f requirements.txt | /venv/bin/pip install -r /dev/stdin
+  - poetry build && /venv/bin/pip install dist/*.whl
 
 # before_script:
 #   - poetry run flake8 ./pyslowloris
