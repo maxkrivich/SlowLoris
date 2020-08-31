@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+  web_server:
+    build: ./httpd_test
+    restart: always
+    ports:
+      - 80:80
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.5
+  exploit:
+    build: .
+    command: --url http://10.5.0.5/ -c 247 -s
+    depends_on:
+      - web_server
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.6
+
+networks:
+  vpcbr:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.5.0.0/16
+         gateway: 10.5.0.1
