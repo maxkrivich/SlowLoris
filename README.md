@@ -1,60 +1,37 @@
 # PySlowLoris
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/SlowLoris-dev/Lobby)
 [![License](https://img.shields.io/badge/license-MIT%20license-orange.svg)](https://github.com/maxkrivich/SlowLoris/blob/master/LICENSE)
-[![Python](https://img.shields.io/badge/python-2.7-blue.svg)](https://github.com/maxkrivich/SlowLoris)
+[![Python](https://img.shields.io/badge/python-3.8-blue.svg)](https://github.com/maxkrivich/SlowLoris)
 [![Build Status](https://travis-ci.org/maxkrivich/SlowLoris.svg?branch=master)](https://travis-ci.org/maxkrivich/SlowLoris)
-[![Requirements Status](https://requires.io/github/maxkrivich/SlowLoris/requirements.svg?branch=master)](https://requires.io/github/maxkrivich/SlowLoris/requirements/?branch=master)
-[![Code Health](https://landscape.io/github/maxkrivich/SlowLoris/master/landscape.svg?style=flat)](https://landscape.io/github/maxkrivich/SlowLoris/master)
 [![PyPI version](https://badge.fury.io/py/PySlowLoris.svg)](https://badge.fury.io/py/PySlowLoris)
-[![Help Contribute to Open Source](https://www.codetriage.com/maxkrivich/slowloris/badges/users.svg)](https://www.codetriage.com/maxkrivich/slowloris)
 
-This repository was created for testing Slow Loris vulnerability on different web servers. SL based on keeping alive open connection as long as possible and sending some trash headers to the server. If you are interested what I'm trying doing here, please join my team and let's do fun together. Please DO NOT use this in the real attacks on the servers.
+PySlowLoris is a tool for testing if your web server is vulnerable to slow-requests kind of attacks. The module is based on python-trio for Asynchronous I/O and poetry for dependency management. The idea behind this approach to create as many connections with a server as possible and keep them alive and send trash headers through the connection. Please DO NOT use this in the real attacks on the servers.
 
-The main reason why I'm writing this module it is to create the easy tool for the fast check a small personal or corporate web server what based on Apache and etc. Also, last but not least reason is to improve my skills in this sphere.
-
-More information you can find [here].
+More information about the attack you can find [here].
 
 ### Installation
 
 #### PyPi
 
-To install PySlowLoris, run this command in your terminal:
+For installation through the PyPI:
 
 ```sh
-$ pip install pyslowloris
+$ pip install pyslowloris==2.0.0
 ```
-This is the preferred method to install PySlowLoris, as it will always install the most recent stable release.
+This method is prefered for installation of the most recent stable release.
 
 
-#### Source files
+#### Source-code
 
-In case you downloaded or cloned the source code from [GitHub](https://github.com/maxkrivich/SlowLoris) or your own fork, you can run the following to install cameo for development:
-
+For installation through the source-code for local development:
 ```sh
 $ git clone https://github.com/[username]/SlowLoris.git
 $ cd SlowLoris
-$ virtualenv --python=python[version] venv
-$ source venv/bin/active
-$ pip install --editable .
+$ pip install poetry
+$ pyenv install 3.8.3
+$ pyenv local 3.8.3
+$ poetry env use 3.8.3
 ```
-
-#### Docker Hub
-
-Pulling image from [Docker Hub](https://hub.docker.com/r/maxkrivich/pyslowloris/) and run container:
-
-```sh
-$ docker pull maxkrivich/pyslowloris
-$ docker run --rm -it maxkrivich/pyslowloris [-h] [-u URL] [-p PORT] [-s SOCKET_COUNT]
-```
-
-Also you can build image from [Dockerfile](https://github.com/maxkrivich/SlowLoris/blob/master/Dockerfile) and run container: 
-
-```sh
-$ docker build -t pyslowloris .
-$ docker run --rm -it pyslowloris [-h] [-u URL] [-p PORT] [-s SOCKET_COUNT]
-```
-
-**Note:** *Don't forget about 'sudo'!*
 
 ### Basic Usage
 
@@ -62,62 +39,92 @@ Available command list:
 
 ```sh
 $ slowloris --help
-usage: slowloris [-h] [-u URL] [-s SOCKET_COUNT] [-p PORT]
+usage: slowloris [-h] -u URL [-c CONNECTION_COUNT] [-s]
 
-Small and simple tool for testing Slow Loris vulnerability
+Asynchronous Python implementation of SlowLoris attack
 
 optional arguments:
-  -h                show this help message and exit
-  -u URL            link to the web server (http://google.com) - str
-  -s SOCKET_COUNT   maximum count of created connection (default value 300) - int
-  -p PORT           port what will be used - int
-
+  -h, --help            show this help message and exit
+  -u URL, --url URL     Link to a web server (http://google.com) - str
+  -c CONNECTION_COUNT, --connection-count CONNECTION_COUNT
+                        Count of active connections (default value is 247) - int
+  -s, --silent          Ignore all of the errors [pure attack mode] - bool
 ```
 
-#### Using PySlowLoris from code
+### Docker usage
 
-Here are some example to start attack from Python code
+#### Download image from Docker Hub
 
-```py
-import time
-from PySlowLoris import TargetInfo, SlowLorisAttack
+Pull the image from [Docker Hub](https://hub.docker.com/r/maxkrivich/pyslowloris/) and run a container:
 
-target = TargetInfo(url="http://kpi.ua/", port=80)
-target.get_info()
-slowloris = SlowLorisAttack(target)
-slowloris.start_attack() # stop_attack()
-
-while True:
-    time.sleep(1)
-
+```bash
+$ docker pull maxkrivich/pyslowloris
+$ docker run --rm -it maxkrivich/pyslowloris [-h] [-u URL] [-c CONNECTION_COUNT] [-s SILENT]
 ```
 
-#### Using PySlowLoris from terminal
+#### Build image from source-code
+
+Also you can build image from [Dockerfile](https://github.com/maxkrivich/SlowLoris/blob/master/Dockerfile) and run a container:
+
+```bash
+$ docker build -t pyslowloris .
+$ docker run --rm -it pyslowloris [-h] [-u URL] [-c CONNECTION_COUNT] [-s SILENT]
+```
+
+**Note:** *Don't forget about 'sudo'!*
+
+
+
+### Example of usage
+
+#### How to use module through Python API
+Here is an example of usage
+
+```python
+from pyslowloris import HostAddress, SlowLorisAttack
+
+url = HostAddress.from_url("http://kpi.ua")
+connections_count = 100
+
+loris = SlowLorisAttack(url, connections_count, silent=True)
+loris.start()
+```
+
+#### How to use module via CLI
 
 The following command helps to use module from command line
 
 ```sh
-$ slowloris -u http://kpi.ua/ -s 300
+$ slowloris -u http://kpi.ua/ -c 100 -s
 ```
 ###### stop execution: Ctrl + C
 
 
+
+### Testing
+
+#### Testing with real apache server
+
+```bash
+$ docker-compose up web_server -d
+$ .....
+```
+
+#### Module-tests
+```bash
+$ make pytest
+```
+
 ### Bugs, issues and contributing
 
-If you find [bugs] or have [suggestions] about improving the module, don't hesitate to contact [me].
-
+If you find [bugs] or have [suggestions] about improving the module, don't hesitate to contact me.
 
 ### License
 
 This project is licensed under the MIT License - see the [LICENSE](https://github.com/maxkrivich/SlowLoris/blob/master/LICENSE) file for details
 
-Copyright (c) 2017 Maxim Krivich
-
-[maxkrivich.github.io](https://maxkrivich.github.io/)
-
-
+Copyright (c) 2017-2020 Maxim Krivich
 
 [here]: <https://en.wikipedia.org/wiki/Slowloris_(computer_security)>
 [bugs]: <https://github.com/maxkrivich/SlowLoris/issues>
 [suggestions]: <https://github.com/maxkrivich/SlowLoris/issues>
-[me]: <https://maxkrivich.github.io>

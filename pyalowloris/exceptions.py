@@ -1,10 +1,7 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 """
 MIT License
 
-Copyright (c) 2017 Maxim Krivich
+Copyright (c) 2020 Maxim Krivich
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,44 +22,26 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-__author__ = 'maxkrivich'
 
-import logging.config
+class SlowLorisBaseError(Exception):
+    pass
 
-# setup logger
-logger = logging.getLogger(__name__)
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'standard': {
-            'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
-        },
-    },
-    'handlers': {
-        'default': {
-            'level': 'INFO',
-            'formatter': 'standard',
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'loggers': {
-        '': {
-            'handlers': ['default'],
-            'level': 'INFO',
-            'propagate': True
-        },
-        'django.request': {
-            'handlers': ['default'],
-            'level': 'WARN',
-            'propagate': False
-        },
-    }
-}
+class InvalidURIError(SlowLorisBaseError):
+    pass
 
-logging.config.dictConfig(LOGGING)
 
-from .slowloris import SlowLorisAttack
-from .slowloris import NetworkLatencyBenchmark
-from .slowloris import TargetInfo, TargetNotExistException
+class HostnameNotFoundedError(InvalidURIError):
+    pass
+
+
+class ConnectionClosedError(SlowLorisBaseError):
+    pass
+
+
+class UserAgentError(SlowLorisBaseError):
+    pass
+
+
+class TooManyActiveConnectionsError(SlowLorisBaseError):
+    pass
