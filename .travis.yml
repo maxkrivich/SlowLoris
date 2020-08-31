@@ -5,6 +5,7 @@ cache: pip
 python:
  - "3.8"
 
+ # FIXME(mkrivich): fix ci
 install:
   - pip install poetry
   - python -m venv ./venv
@@ -15,8 +16,8 @@ install:
   - ./venv/bin/pip install -r requirements.txt
   - poetry build && ./venv/bin/pip install dist/*.whl
 
-# before_script:
-#   - poetry run flake8 ./pyslowloris
+before_script:
+  - poetry run flake8 ./pyslowloris
 
 script:
   - poetry run pytest
