@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2017 Maxim Krivich
+Copyright (c) 2020 Maxim Krivich
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,27 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-from .uri_info import HostAddress
-from .connection import SlowLorisConnection
-from .attack import SlowLorisAttack
+
+
+class SlowLorisBaseError(Exception):
+    pass
+
+
+class InvalidURIError(SlowLorisBaseError):
+    pass
+
+
+class HostnameNotFoundedError(InvalidURIError):
+    pass
+
+
+class ConnectionClosedError(SlowLorisBaseError):
+    pass
+
+
+class UserAgentError(SlowLorisBaseError):
+    pass
+
+
+class TooManyActiveConnectionsError(SlowLorisBaseError):
+    pass
