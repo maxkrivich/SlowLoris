@@ -7,10 +7,10 @@ python:
 
 install:
   - pip install poetry
-  - python -m venv /venv
+  - python -m venv ./venv
   - poetry install -v
-  - poetry export -f requirements.txt | /venv/bin/pip install -r /dev/stdin
-  - poetry build && /venv/bin/pip install dist/*.whl
+  - poetry export -f requirements.txt | ./venv/bin/pip install -r /dev/stdin
+  - poetry build && ./venv/bin/pip install dist/*.whl
 
 # before_script:
 #   - poetry run flake8 ./pyslowloris
