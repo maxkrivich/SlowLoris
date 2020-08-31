@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/badge/license-MIT%20license-orange.svg)](https://github.com/maxkrivich/SlowLoris/blob/master/LICENSE)
 [![Python](https://img.shields.io/badge/python-3.8-blue.svg)](https://github.com/maxkrivich/SlowLoris)
 [![Build Status](https://travis-ci.org/maxkrivich/SlowLoris.svg?branch=master)](https://travis-ci.org/maxkrivich/SlowLoris)
-[![PyPI version](https://badge.fury.io/py/PySlowLoris.svg)](https://badge.fury.io/py/PySlowLoris)
+[![PyPI version](https://badge.fury.io/py/pyslowloris.svg)](https://badge.fury.io/py/pyslowloris)
 
 PySlowLoris is a tool for testing if your web server is vulnerable to slow-requests kind of attacks. The module is based on python-trio for Asynchronous I/O and poetry for dependency management. The idea behind this approach to create as many connections with a server as possible and keep them alive and send trash headers through the connection. Please DO NOT use this in the real attacks on the servers.
 
