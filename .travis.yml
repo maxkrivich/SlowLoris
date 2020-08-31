@@ -10,11 +10,6 @@ install:
   - pip install poetry
   - python -m venv ./venv
   - poetry install -v
-  - ls -la
-  - poetry export -f requirements.txt > requirements.txt
-  - ls -la
-  - ./venv/bin/pip install -r requirements.txt
-  - poetry build && ./venv/bin/pip install dist/*.whl
 
 before_script:
   - poetry run flake8 ./pyslowloris
