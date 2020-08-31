@@ -9,8 +9,8 @@ install:
   - pip install poetry
   - poetry install -v
 
-before_script:
-  - poetry run flake8 ./pyslowloris
+# before_script:
+#   - poetry run flake8 ./pyslowloris
 
 script:
   - poetry run pytest
