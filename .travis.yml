@@ -9,7 +9,8 @@ before_install:
   - pip install poetry
 
 install:
-  - poetry install -v
+  - poetry config settings.virtualenvs.in-project true
+  - poetry install -vv
 
 script:
   - poetry run flake8 pyslowloris
