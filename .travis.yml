@@ -9,7 +9,8 @@ install:
   - pip install poetry
   - python -m venv ./venv
   - poetry install -v
-  - poetry export -f requirements.txt | ./venv/bin/pip install -r /dev/stdin
+  - poetry export -f requirements.txt > requirements.txt
+  - ./venv/bin/pip install -r requirements.txt
   - poetry build && ./venv/bin/pip install dist/*.whl
 
 # before_script:
