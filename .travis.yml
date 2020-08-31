@@ -5,16 +5,14 @@ cache: pip
 python:
  - "3.8"
 
- # FIXME(mkrivich): fix ci
-install:
+before_install:
   - pip install poetry
-  - python -m venv ./venv
+
+install:
   - poetry install -v
 
-before_script:
-  - poetry run flake8 ./pyslowloris
-
 script:
+  - poetry run flake8 pyslowloris
   - poetry run pytest
 
 branches:
