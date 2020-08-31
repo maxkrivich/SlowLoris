@@ -9,7 +9,7 @@ before_install:
   - pip install poetry
 
 install:
-  - poetry config settings.virtualenvs.in-project true
+  - poetry config virtualenvs.create false
   - poetry install -vv
 
 script:
