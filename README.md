@@ -16,7 +16,7 @@ More information about the attack you can find [here].
 For installation through the PyPI:
 
 ```sh
-$ pip install pyslowloris==2.0.0
+$ pip install pyslowloris==2.0.1
 ```
 This method is prefered for installation of the most recent stable release.
 
