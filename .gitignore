@@ -95,3 +95,5 @@ logs/
 
 
 SlowLoris.egg-info/
+
+.pytest_cache

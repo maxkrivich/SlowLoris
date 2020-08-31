@@ -3,47 +3,33 @@ language: python
 cache: pip
 
 python:
-  # - "2.6"
-  - "2.7"
-#  - "3.2"
-#  - "3.3"
-#  - "3.4"
-#  - "3.5"
-#  - "3.5-dev" # 3.5 development branch
-#  - "3.6"
-#  - "3.6-dev" # 3.6 development branch
-#  - "3.7-dev" # 3.7 development branch
-#  - "nightly" # currently points to 3.7-dev
+ - "3.8"
 
-# os:
-#   - linux
-#   - osx
-
+ # FIXME(mkrivich): fix ci
 install:
-  - pip install -r requirements.txt
-  # - pip install coveralls
-  - pip install flake8
+  - pip install poetry
+  - python -m venv ./venv
+  - poetry install -v
+  - ls -la
+  - poetry export -f requirements.txt > requirements.txt
+  - ls -la
+  - ./venv/bin/pip install -r requirements.txt
+  - poetry build && ./venv/bin/pip install dist/*.whl
 
 before_script:
-    # stop the build if there are Python syntax errors or undefined names
-    - time flake8 . --count --select=E901,E999,F821,F822,F823 --show-source --statistics
-    # exit-zero treats all errors as warnings.  The GitHub editor is 127 chars wide
-    - time flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+  - poetry run flake8 ./pyslowloris
 
-script: true
-#   - python tests.py
-#   - coverage run tests.py
-
-# after_success:
-#   - coveralls
+script:
+  - poetry run pytest
 
 branches:
   only:
     - master
+    - develop
 
 notifications:
   email:
     recipients:
-      - maxkrivich@gmail.com
+      -  maxkrivich@gmail.com
     on_success: never
     on_failure: always

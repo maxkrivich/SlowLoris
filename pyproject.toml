@@ -1,0 +1,62 @@
+[tool.poetry]
+name = "pyslowloris"
+version = "2.0.0"
+description = "Asynchronous Python implementation of SlowLoris DoS attack"
+authors = ["Maxim Krivich <maxkrivich@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/maxkrivich/SlowLoris"
+repository = "https://github.com/maxkrivich/SlowLoris"
+
+
+keywords = [
+    "SlowLoris", "dos", "slowloris", "apache", "dos-attacks", "denial-of-service", "http",
+    "exploit", "dos-tool", "hacker-scripts", "hacking-tool", "hacking", "vulnerability", "slow-requests",
+    "cybersecurity", "cyber-security", "information-security", "security"
+]
+
+classifiers = [
+    "Natural Language :: English",
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8"
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+fake-useragent = "^0.1.11"
+trio = "^0.16.0"
+jk-triologging = "^0.2019.10"
+sh = "^1.14.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.0.1"
+flake8 = "^3.8.3"
+pytest-trio = "^0.6.0"
+isort = "^5.4.2"
+
+[tool.pytest.ini_options]
+minversion = "6.0.1"
+addopts = "-ra -q -v"
+trio_mode = "true"
+testpaths = [
+    "tests"
+]
+
+[tool.isort]
+atomic = true
+lines_after_imports = 2
+lines_between_types = 1
+multi_line_output = 3
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/maxkrivich/SlowLoris/issues"
+
+[tool.poetry.scripts]
+slowloris = "pyslowloris.__main__:main"
+
+[build-system]
+requires = ["poetry>=1.0"]

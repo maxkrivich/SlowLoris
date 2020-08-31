@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2017 Maxim Krivich
+Copyright (c) 2020 Maxim Krivich
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,8 +21,20 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
+import re
 
-from .connection import Connection
-from .slowloris import SlowLorisAttack
-from .pingtest import NetworkLatencyBenchmark
-from .targetinfo import TargetInfo, TargetNotExistException
+
+url_pattern = re.compile(
+    r"^(?:http)s?://"  # http:// or https://
+    # domain...
+    r"(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)"
+    r"+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|"
+    r"localhost|"  # localhost...
+    r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})"  # ...or ip
+    r"(?::\d+)?"  # optional port
+    r"(?:/?|[/?]\S+)$", re.IGNORECASE
+)
+
+
+def validate_url(url: str) -> bool:
+    return bool(url_pattern.match(url))
