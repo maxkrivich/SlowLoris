@@ -8,6 +8,7 @@ python:
 before_install:
   - pip install poetry
 
+# FIXME(mkrivich): poetry is not working with travis
 install:
   - poetry config virtualenvs.create false
   - poetry install -vv
