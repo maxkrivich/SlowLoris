@@ -1,4 +1,4 @@
-####THIS IS FOR EDUCATIONAL PURPOSE
+
 # PySlowLoris
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/SlowLoris-dev/Lobby)
 [![License](https://img.shields.io/badge/license-MIT%20license-orange.svg)](https://github.com/maxkrivich/SlowLoris/blob/master/LICENSE)
