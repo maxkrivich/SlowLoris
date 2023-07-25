@@ -34,7 +34,7 @@ class URIInfoTest(unittest.TestCase):
         # checking http
         url = 'http://127.0.0.1'
         host = HostAddress.from_url(url)
-        assert f'{url}:80/' == str(host)
+        assert f'{url}:81/' == str(host)
 
         # checking https
         url = 'https://127.0.0.1'
