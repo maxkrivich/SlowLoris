@@ -1,8 +1,7 @@
 # PySlowLoris
-[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/SlowLoris-dev/Lobby)
+
 [![License](https://img.shields.io/badge/license-MIT%20license-orange.svg)](https://github.com/maxkrivich/SlowLoris/blob/master/LICENSE)
-[![Python](https://img.shields.io/badge/python-3.8-blue.svg)](https://github.com/maxkrivich/SlowLoris)
-[![Build Status](https://travis-ci.org/maxkrivich/SlowLoris.svg?branch=master)](https://travis-ci.org/maxkrivich/SlowLoris)
+[![Python](https://img.shields.io/badge/python-3.11-blue.svg)](https://github.com/maxkrivich/SlowLoris)
 [![PyPI version](https://badge.fury.io/py/pyslowloris.svg)](https://badge.fury.io/py/pyslowloris)
 
 PySlowLoris is a tool for testing if your web server is vulnerable to slow-requests kind of attacks. The module is based on python-trio for Asynchronous I/O and poetry for dependency management. The idea behind this approach to create as many connections with a server as possible and keep them alive and send trash headers through the connection. Please DO NOT use this in the real attacks on the servers.
@@ -16,21 +15,23 @@ More information about the attack you can find [here].
 For installation through the PyPI:
 
 ```sh
-$ pip install pyslowloris==2.0.1
+pip install pyslowloris==2.0.1
 ```
-This method is prefered for installation of the most recent stable release.
 
+This method is prefered for installation of the most recent stable release.
 
 #### Source-code
 
 For installation through the source-code for local development:
+
 ```sh
-$ git clone https://github.com/[username]/SlowLoris.git
-$ cd SlowLoris
-$ pip install poetry
-$ pyenv install 3.8.3
-$ pyenv local 3.8.3
-$ poetry env use 3.8.3
+git clone https://github.com/[username]/SlowLoris.git
+cd SlowLoris
+pip install poetry pre-commit
+pre-commit install
+pyenv install 3.8.3
+pyenv local 3.8.3
+poetry env use 3.8.3
 ```
 
 ### Basic Usage
@@ -58,8 +59,8 @@ optional arguments:
 Pull the image from [Docker Hub](https://hub.docker.com/r/maxkrivich/pyslowloris/) and run a container:
 
 ```bash
-$ docker pull maxkrivich/pyslowloris
-$ docker run --rm -it maxkrivich/pyslowloris [-h] [-u URL] [-c CONNECTION_COUNT] [-s SILENT]
+docker pull maxkrivich/pyslowloris
+docker run --rm -it maxkrivich/pyslowloris [-h] [-u URL] [-c CONNECTION_COUNT] [-s SILENT]
 ```
 
 #### Build image from source-code
@@ -67,17 +68,16 @@ $ docker run --rm -it maxkrivich/pyslowloris [-h] [-u URL] [-c CONNECTION_COUNT]
 Also you can build image from [Dockerfile](https://github.com/maxkrivich/SlowLoris/blob/master/Dockerfile) and run a container:
 
 ```bash
-$ docker build -t pyslowloris .
-$ docker run --rm -it pyslowloris [-h] [-u URL] [-c CONNECTION_COUNT] [-s SILENT]
+docker build -t pyslowloris .
+docker run --rm -it pyslowloris [-h] [-u URL] [-c CONNECTION_COUNT] [-s SILENT]
 ```
 
 **Note:** *Don't forget about 'sudo'!*
 
-
-
 ### Example of usage
 
 #### How to use module through Python API
+
 Here is an example of usage
 
 ```python
@@ -95,24 +95,24 @@ loris.start()
 The following command helps to use module from command line
 
 ```sh
-$ slowloris -u http://kpi.ua/ -c 100 -s
+slowloris -u http://kpi.ua/ -c 100 -s
 ```
+
 ###### stop execution: Ctrl + C
-
-
 
 ### Testing
 
 #### Testing with real apache server
 
 ```bash
-$ docker-compose up web_server -d
-$ .....
+docker-compose up web_server -d
+.....
 ```
 
 #### Module-tests
+
 ```bash
-$ make pytest
+make pytest
 ```
 
 ### Bugs, issues and contributing
