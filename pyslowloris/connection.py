@@ -94,4 +94,4 @@ class SlowLorisConnection:
 
     async def send(self, string: str, encoding: str = "latin-1") -> None:
         """Send string over established connection."""
-        await self._stream.send_all(data=string.encode(encoding))
+        await self._stream.send_all(data=string.encode(encoding))  # type: ignore

@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 import socket
-
+import typing
 from urllib.parse import urlparse
 
 from pyslowloris import exceptions as exc
@@ -33,7 +33,7 @@ class HostAddress:
     __slots__ = ("host", "path", "port", "ssl", "scheme", "_ip", )
 
     def __init__(
-        self, scheme: str, host: str,
+        self, scheme: str, host: typing.Optional[str],
         path: str, port: int, ssl: bool = False
     ):
         self.host = host

@@ -56,4 +56,4 @@ class URIInfoTest(unittest.TestCase):
 
         # without scheme
         with pytest.raises(exc.InvalidURIError):
-            host = HostAddress.from_url('127.0.0.1')
+            _ = HostAddress.from_url('127.0.0.1')

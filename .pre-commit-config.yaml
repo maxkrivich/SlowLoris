@@ -11,7 +11,12 @@ repos:
     rev: v1.4.1
     hooks:
       - id: mypy
-        args: [--follow-imports=silent, --ignore-missing-imports]
+        args:
+          [
+            --follow-imports=silent,
+            --ignore-missing-imports,
+            --implicit-optional,
+          ]
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v2.4.0
     hooks:

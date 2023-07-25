@@ -21,6 +21,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-from .uri_info import HostAddress
-from .connection import SlowLorisConnection
 from .attack import SlowLorisAttack
+from .connection import SlowLorisConnection
+from .uri_info import HostAddress

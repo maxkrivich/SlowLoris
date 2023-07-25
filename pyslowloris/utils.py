@@ -23,7 +23,6 @@ SOFTWARE.
 """
 import re
 
-
 url_pattern = re.compile(
     r"^(?:http)s?://"  # http:// or https://
     # domain...

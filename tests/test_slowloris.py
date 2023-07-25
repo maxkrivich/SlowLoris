@@ -24,7 +24,6 @@ SOFTWARE.
 import dataclasses
 import multiprocessing
 import socketserver
-
 from http import server
 
 import pytest
@@ -39,7 +38,9 @@ class ServerConfig:
     PORT: int = 7887
     POOL_SIZE: int = 2
 
+
 conf = ServerConfig()
+
 
 def _create_and_serve():
     ForkingHTTPServer = type(
