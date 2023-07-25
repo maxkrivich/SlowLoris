@@ -414,19 +414,19 @@ files = [
 
 [[package]]
 name = "trio"
-version = "0.16.0"
+version = "0.22.2"
 description = "A friendly Python library for async concurrency and I/O"
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=3.7"
 files = [
-    {file = "trio-0.16.0-py3-none-any.whl", hash = "sha256:451ddb27b4e5215e00646fcbb8028d341fccf284e053dc376506a14bb133dbcf"},
-    {file = "trio-0.16.0.tar.gz", hash = "sha256:df067dd0560c321af39d412cd81fc3a7d13f55af9150527daab980683e9fcf3c"},
+    {file = "trio-0.22.2-py3-none-any.whl", hash = "sha256:f43da357620e5872b3d940a2e3589aa251fd3f881b65a608d742e00809b1ec38"},
+    {file = "trio-0.22.2.tar.gz", hash = "sha256:3887cf18c8bcc894433420305468388dac76932e9668afa1c49aa3806b6accb3"},
 ]
 
 [package.dependencies]
-async-generator = ">=1.9"
-attrs = ">=19.2.0"
+attrs = ">=20.1.0"
 cffi = {version = ">=1.14", markers = "os_name == \"nt\" and implementation_name != \"pypy\""}
+exceptiongroup = {version = ">=1.0.0rc9", markers = "python_version < \"3.11\""}
 idna = "*"
 outcome = "*"
 sniffio = "*"
@@ -435,4 +435,4 @@ sortedcontainers = "*"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "032c328badb497d524b2178ce84d11b66a9b069fd9282a07bca541a7a2addf3b"
+content-hash = "f0fdf0d4ac37f6892514d78df549483c9656d49d6a6a454380219037ef473b46"
