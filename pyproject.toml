@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyslowloris"
-version = "2.0.1"
+version = "2.0.2"
 description = "Asynchronous Python implementation of SlowLoris DoS attack"
 authors = ["Maxim Krivich <maxkrivich@gmail.com>"]
 license = "MIT"
