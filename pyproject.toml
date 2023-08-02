@@ -36,7 +36,7 @@ sh = "^1.14.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.4.0"
-flake8 = "^3.8.3"
+flake8 = "^5.0.4"
 pytest-trio = "^0.6.0"
 isort = "^5.4.2"
 
