@@ -375,17 +375,16 @@ pytest = ">=4.0.0"
 
 [[package]]
 name = "pytest-trio"
-version = "0.6.0"
+version = "0.7.0"
 description = "Pytest plugin for trio"
 optional = false
-python-versions = ">=3.5"
+python-versions = ">=3.6"
 files = [
-    {file = "pytest-trio-0.6.0.tar.gz", hash = "sha256:9bf0a490fd177a33617e8709242293fae47934de2b51f8209eb2c0545b6ca8fe"},
-    {file = "pytest_trio-0.6.0-py3-none-any.whl", hash = "sha256:3f48cc1df66d279d705af38ad38d1639c2e2380ddffcdc3a45bb81758de61f03"},
+    {file = "pytest-trio-0.7.0.tar.gz", hash = "sha256:c01b741819aec2c419555f28944e132d3c711dae1e673d63260809bf92c30c31"},
 ]
 
 [package.dependencies]
-async-generator = ">=1.9"
+async_generator = ">=1.9"
 outcome = "*"
 pytest = ">=3.6"
 trio = ">=0.15.0"
@@ -471,4 +470,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "27e83f712f28fffb7cfd2d5498e22692ddb8cae2e0d6267844da65410145820d"
+content-hash = "78fee46e2939394a8b376b3b9cf83338c85872bb54bf9d7105fff65edec3bf44"
