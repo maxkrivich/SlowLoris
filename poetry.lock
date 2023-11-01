@@ -132,13 +132,13 @@ test = ["pytest (>=6)"]
 
 [[package]]
 name = "fake-useragent"
-version = "1.2.1"
+version = "1.3.0"
 description = "Up-to-date simple useragent faker with real world database"
 optional = false
 python-versions = "*"
 files = [
-    {file = "fake-useragent-1.2.1.tar.gz", hash = "sha256:b411f903331f695e3840ccadcf011f745a405764e97c588f2b8fde9e400a5446"},
-    {file = "fake_useragent-1.2.1-py3-none-any.whl", hash = "sha256:ad2b5414d19493d0789572f04200d4f656f84d20b205cc805233212957fe385d"},
+    {file = "fake-useragent-1.3.0.tar.gz", hash = "sha256:0b3a223b4c03e3df46b0e9ff53ad26cf4690f68871396b9c59a7fa6ee830c395"},
+    {file = "fake_useragent-1.3.0-py3-none-any.whl", hash = "sha256:73cee1d10bcd1deb25a15e916f6674c537d2d9088ecb4d7af98c2619f83827d1"},
 ]
 
 [package.dependencies]
@@ -470,4 +470,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "d4386d7f95f860e699ca2f35f3668cda5de5d1393d365c0e45c9436b84624310"
+content-hash = "729710d49f4e71d2f701ffe6330900b5bcfcd5900545be69c1f7d0b134cbab41"
