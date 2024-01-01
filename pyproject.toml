@@ -38,7 +38,7 @@ sh = "^1.14.0"
 pytest = "^7.4.4"
 flake8 = "^3.8.3"
 pytest-trio = "^0.7.0"
-isort = "^5.4.2"
+isort = "^5.13.2"
 
 [tool.poetry.group.dev.dependencies]
 pytest-github-actions-annotate-failures = "^0.2.0"
