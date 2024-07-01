@@ -35,7 +35,7 @@ jk-triologging = "^0.2019.10"
 sh = "^1.14.0"
 
 [tool.poetry.dev-dependencies]
-pytest = "^8.2.1"
+pytest = "^8.2.2"
 flake8 = "^3.8.3"
 pytest-trio = "^0.8.0"
 isort = "^5.13.2"
