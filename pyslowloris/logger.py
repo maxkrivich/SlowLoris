@@ -2,7 +2,6 @@ import jk_triologging
 
 
 class Logger:
-
     def __init__(self):
         self._log = jk_triologging.TrioConsoleLogger.create()
 

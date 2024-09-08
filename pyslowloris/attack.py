@@ -31,14 +31,23 @@ from pyslowloris import exceptions as exc
 
 
 class SlowLorisAttack:
-    __slots__ = ("_target", "_silent", "_connections_count", "_sleep_time", )
+    __slots__ = (
+        "_target",
+        "_silent",
+        "_connections_count",
+        "_sleep_time",
+    )
 
     DEFAULT_SLEEP_TIME = 2
     DEFAULT_RANDOM_RANGE = [1, 999999]
 
     def __init__(
-        self, target: HostAddress, connections_count: int,
-        *, sleep_time: int = None, silent: bool = True
+        self,
+        target: HostAddress,
+        connections_count: int,
+        *,
+        sleep_time: int = None,
+        silent: bool = True,
     ):
         self._target = target
         self._silent = silent
@@ -81,8 +90,6 @@ class SlowLorisAttack:
         except OSError:
             # Too much opened connections
             if not self._silent:
-                raise exc.TooManyActiveConnectionsError(
-                    "Too many opened connections."
-                )
+                raise exc.TooManyActiveConnectionsError("Too many opened connections.")
         except Exception as ex:
             raise exc.SlowLorisBaseError("Something went wrong.") from ex

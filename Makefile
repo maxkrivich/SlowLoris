@@ -21,8 +21,8 @@ setup-poetry:  ## Install poetry
 pytest:  ## Launch pytest insdie of poetry env
 	poetry run pytest
 
-flake8: ## Launch flake8 insdie of poetry env
-	poetry run flake8 ./pyslowloris
+lint: ## Launch ruff insdie of poetry env
+	poetry run ruff ./pyslowloris
 
-isort:  ## Launch isort insdie of poetry env
-	poetry run isort -rc ./pyslowloris ./tests
+format:  ## Launch ruff format insdie of poetry env
+	poetry run ruff format ./pyslowloris ./tests

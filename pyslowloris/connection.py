@@ -21,6 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
+
 import fake_useragent
 import trio
 
@@ -30,7 +31,9 @@ from pyslowloris import exceptions as exc
 
 class SlowLorisConnection:
     __slots__ = (
-        "_stream", "_target", "_fake_agent",
+        "_stream",
+        "_target",
+        "_fake_agent",
         "_headers",
     )
 
@@ -39,7 +42,7 @@ class SlowLorisConnection:
         "Accept-Encoding": "gzip, deflate",
         "Accept-Language": "ru,en-us;q=0.7,en;q=0.3",
         "Accept-Charset": "windows-1251,utf-8;q=0.7,*;q=0.7",
-        "Connection": "keep-alive"
+        "Connection": "keep-alive",
     }
 
     def __init__(self, target: HostAddress, headers: dict = None):
@@ -84,7 +87,7 @@ class SlowLorisConnection:
         lines = [
             f"GET {self._target.path} HTTP/1.1\r\n",
             f"Host: {self._target.host}\r\n",
-            f"User-Agent: {self._fake_agent.random}\r\n"
+            f"User-Agent: {self._fake_agent.random}\r\n",
         ]
         lines.extend([f"{k}: {v}\r\n" for k, v in self._headers.items()])
 

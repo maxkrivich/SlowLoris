@@ -21,6 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
+
 import unittest
 
 import pytest
@@ -32,28 +33,28 @@ from pyslowloris import exceptions as exc
 class URIInfoTest(unittest.TestCase):
     def test_valid_uri(self):
         # checking http
-        url = 'http://127.0.0.1'
+        url = "http://127.0.0.1"
         host = HostAddress.from_url(url)
-        assert f'{url}:80/' == str(host)
+        assert f"{url}:80/" == str(host)
 
         # checking https
-        url = 'https://127.0.0.1'
+        url = "https://127.0.0.1"
         host = HostAddress.from_url(url)
-        assert f'{url}:443/' == str(host)
+        assert f"{url}:443/" == str(host)
 
     def test_invalid_uri(self):
         # not supported type of scheme
         with pytest.raises(exc.InvalidURIError):
-            HostAddress.from_url('invalid_scheme://127.0.0.1')
+            HostAddress.from_url("invalid_scheme://127.0.0.1")
 
         # invalid port value
         with pytest.raises(exc.InvalidURIError):
-            HostAddress.from_url('http://127.0.0.1:invalid_port')
+            HostAddress.from_url("http://127.0.0.1:invalid_port")
 
         # port is out of the allowed range
         with pytest.raises(exc.InvalidURIError):
-            HostAddress.from_url('http://127.0.0.1:999999999999')
+            HostAddress.from_url("http://127.0.0.1:999999999999")
 
         # without scheme
         with pytest.raises(exc.InvalidURIError):
-            host = HostAddress.from_url('127.0.0.1')
+            _ = HostAddress.from_url("127.0.0.1")

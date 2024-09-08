@@ -21,6 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
+
 import argparse
 import sys
 
@@ -30,20 +31,30 @@ from pyslowloris import HostAddress, SlowLorisAttack
 def _parse_args() -> dict:
     parser = argparse.ArgumentParser(
         add_help=True,
-        description="Asynchronous Python implementation of SlowLoris attack"
+        description="Asynchronous Python implementation of SlowLoris attack",
     )
     parser.add_argument(
-        "-u", "--url", action="store", type=str, required=True,
-        help="Link to a web server (http://google.com) - str"
+        "-u",
+        "--url",
+        action="store",
+        type=str,
+        required=True,
+        help="Link to a web server (http://google.com) - str",
     )
     # 247 is magic number to prevent OSError: [Errno 24] Too many open files
     parser.add_argument(
-        "-c", "--connection-count", default=247, action="store", type=int,
-        help="Count of active connections (default value is 247) - int"
+        "-c",
+        "--connection-count",
+        default=247,
+        action="store",
+        type=int,
+        help="Count of active connections (default value is 247) - int",
     )
     parser.add_argument(
-        "-s", "--silent", action='store_true',
-        help="Ignore all of the errors [pure attack mode] - bool"
+        "-s",
+        "--silent",
+        action="store_true",
+        help="Ignore all of the errors [pure attack mode] - bool",
     )
 
     # TODO(mkrivich): add support of this flag

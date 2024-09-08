@@ -21,6 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
+
 import dataclasses
 import multiprocessing
 import socketserver
@@ -39,12 +40,13 @@ class ServerConfig:
     PORT: int = 7887
     POOL_SIZE: int = 2
 
+
 conf = ServerConfig()
+
 
 def _create_and_serve():
     ForkingHTTPServer = type(
-        "ForkingHTTPServer",
-        (socketserver.ForkingMixIn, server.HTTPServer), {}
+        "ForkingHTTPServer", (socketserver.ForkingMixIn, server.HTTPServer), {}
     )
     ForkingHTTPServer.max_children = conf.POOL_SIZE
 

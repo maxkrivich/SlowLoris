@@ -21,6 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
+
 import socket
 
 from urllib.parse import urlparse
@@ -30,12 +31,16 @@ from pyslowloris import utils as u
 
 
 class HostAddress:
-    __slots__ = ("host", "path", "port", "ssl", "scheme", "_ip", )
+    __slots__ = (
+        "host",
+        "path",
+        "port",
+        "ssl",
+        "scheme",
+        "_ip",
+    )
 
-    def __init__(
-        self, scheme: str, host: str,
-        path: str, port: int, ssl: bool = False
-    ):
+    def __init__(self, scheme: str, host: str, path: str, port: int, ssl: bool = False):
         self.host = host
         self.path = path
         self.port = port

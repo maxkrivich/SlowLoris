@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest] #, macos-latest]
-        python-version: ["3.11"] #, "3.9", "3.10", "3.11"]
+        python-version: ["3.12"] #, "3.9", "3.10", "3.11"]
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
@@ -29,9 +29,9 @@ jobs:
           pip install poetry
           poetry config virtualenvs.create false
           poetry install -vv
-      - name: Lint with flake8
+      - name: Lint with ruff
         run: |
-          poetry run flake8 pyslowloris
+          poetry run ruff pyslowloris
       - name: Test with pytest
         env:
           GITHUB_ACTIONS: true
