@@ -4,3 +4,8 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
+    open-pull-requests-limit: 5
+    groups:
+      python-packages:
+        patterns:
+          - "*"
