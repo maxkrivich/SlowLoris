@@ -32,13 +32,13 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.9"
-fake-useragent = ">=0.1.11,<1.6.0"
-trio = ">=0.16,<0.28"
+fake-useragent = ">=0.1.11,<2.1.0"
+trio = ">=0.16,<0.29"
 jk-triologging = "^0.2019.10"
 sh = ">=1.14,<3.0"
 
 [tool.poetry.dev-dependencies]
-pytest = "^8.3.3"
+pytest = "^8.3.4"
 flake8 = "^7.1.1"
 pytest-trio = "^0.8.0"
 isort = "^5.13.2"
