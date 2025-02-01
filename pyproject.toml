@@ -41,10 +41,10 @@ sh = ">=1.14,<3.0"
 pytest = "^8.3.4"
 flake8 = "^7.1.1"
 pytest-trio = "^0.8.0"
-isort = "^5.13.2"
+isort = "^6.0.0"
 
 [tool.poetry.group.dev.dependencies]
-pytest-github-actions-annotate-failures = "^0.2.0"
+pytest-github-actions-annotate-failures = ">=0.2,<0.4"
 
 [tool.pytest.ini_options]
 minversion = "6.0.1"

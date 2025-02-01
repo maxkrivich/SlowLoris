@@ -199,17 +199,18 @@ files = [
 
 [[package]]
 name = "isort"
-version = "5.13.2"
+version = "6.0.0"
 description = "A Python utility / library to sort Python imports."
 optional = false
-python-versions = ">=3.8.0"
+python-versions = ">=3.9.0"
 files = [
-    {file = "isort-5.13.2-py3-none-any.whl", hash = "sha256:8ca5e72a8d85860d5a3fa69b8745237f2939afe12dbf656afbcb47fe72d947a6"},
-    {file = "isort-5.13.2.tar.gz", hash = "sha256:48fdfcb9face5d58a4f6dde2e72a1fb8dcaf8ab26f95ab49fab84c2ddefb0109"},
+    {file = "isort-6.0.0-py3-none-any.whl", hash = "sha256:567954102bb47bb12e0fae62606570faacddd441e45683968c8d1734fb1af892"},
+    {file = "isort-6.0.0.tar.gz", hash = "sha256:75d9d8a1438a9432a7d7b54f2d3b45cad9a4a0fdba43617d9873379704a8bdf1"},
 ]
 
 [package.extras]
-colors = ["colorama (>=0.4.6)"]
+colors = ["colorama"]
+plugins = ["setuptools"]
 
 [[package]]
 name = "jk-exceptionhelper"
@@ -357,17 +358,17 @@ dev = ["argcomplete", "attrs (>=19.2)", "hypothesis (>=3.56)", "mock", "pygments
 
 [[package]]
 name = "pytest-github-actions-annotate-failures"
-version = "0.2.0"
+version = "0.3.0"
 description = "pytest plugin to annotate failed tests with a workflow command for GitHub Actions"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "pytest-github-actions-annotate-failures-0.2.0.tar.gz", hash = "sha256:844ab626d389496e44f960b42f0a72cce29ae06d363426d17ea9ae1b4bef2288"},
-    {file = "pytest_github_actions_annotate_failures-0.2.0-py3-none-any.whl", hash = "sha256:8bcef65fed503faaa0524b59cfeccc8995130972dd7b008d64193cc41b9cde85"},
+    {file = "pytest_github_actions_annotate_failures-0.3.0-py3-none-any.whl", hash = "sha256:41ea558ba10c332c0bfc053daeee0c85187507b2034e990f21e4f7e5fef044cf"},
+    {file = "pytest_github_actions_annotate_failures-0.3.0.tar.gz", hash = "sha256:d4c3177c98046c3900a7f8ddebb22ea54b9f6822201b5d3ab8fcdea51e010db7"},
 ]
 
 [package.dependencies]
-pytest = ">=4.0.0"
+pytest = ">=6.0.0"
 
 [[package]]
 name = "pytest-trio"
@@ -387,13 +388,13 @@ trio = ">=0.22.0"
 
 [[package]]
 name = "sh"
-version = "2.1.0"
+version = "2.2.1"
 description = "Python subprocess replacement"
 optional = false
 python-versions = "<4.0,>=3.8.1"
 files = [
-    {file = "sh-2.1.0-py3-none-any.whl", hash = "sha256:bf5e44178dd96a542126c2774e9b7ab1d89bfe0e2ef84d92e6d0ed7358d63d01"},
-    {file = "sh-2.1.0.tar.gz", hash = "sha256:7e27301c574bec8ca5bf6f211851357526455ee97cd27a7c4c6cc5e2375399cb"},
+    {file = "sh-2.2.1-py3-none-any.whl", hash = "sha256:c7369c4ae13729d8ea100b5e93af1a8be528a008433428e38651c9f2b5b5fe2c"},
+    {file = "sh-2.2.1.tar.gz", hash = "sha256:287021ae84183dea49787985e33797dda7fe769e4f95f2c94dff8e245ab4cb00"},
 ]
 
 [[package]]
@@ -471,4 +472,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "1ca6f1a6e7e1825b2c8a01d4354f8f528d1cd29cfff70f7619ce75f930600b01"
+content-hash = "c2fdb3750b4ec053d7d8e7fb0e639677fb20a1104f060a8a94ec80859abb3a4c"
