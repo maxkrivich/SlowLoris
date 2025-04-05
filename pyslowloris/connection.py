@@ -31,7 +31,7 @@ from pyslowloris import exceptions as exc
 class SlowLorisConnection:
     __slots__ = (
         "_stream", "_target", "_fake_agent",
-        "_headers",
+        "_headers", "_my_ip"
     )
 
     DEFAULT_HEADERS = {
@@ -42,10 +42,11 @@ class SlowLorisConnection:
         "Connection": "keep-alive"
     }
 
-    def __init__(self, target: HostAddress, headers: dict = None):
+    def __init__(self, target: HostAddress, headers: dict = None, my_ip: str = None):
         self._target = target
         self._headers = headers or self.DEFAULT_HEADERS
         self._stream = None
+        self._my_ip = my_ip
 
         try:
             self._fake_agent = fake_useragent.UserAgent()
@@ -64,6 +65,7 @@ class SlowLorisConnection:
         params = {
             "host": self._target.ip_address,
             "port": self._target.port,
+            "local_address": self._my_ip
         }
         func = "open_tcp_stream"
         if self._target.ssl:
