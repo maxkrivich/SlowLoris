@@ -132,18 +132,18 @@ test = ["pytest (>=6)"]
 
 [[package]]
 name = "fake-useragent"
-version = "2.1.0"
+version = "2.2.0"
 description = "Up-to-date simple useragent faker with real world database"
 optional = false
 python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "fake_useragent-2.1.0-py3-none-any.whl", hash = "sha256:1363d8be4934627f80a84c21cce72d33c5da650a9f1fd7398520b1edb6ecd873"},
-    {file = "fake_useragent-2.1.0.tar.gz", hash = "sha256:cbb2cde0512ecefec1e6175e59d8bcc5cd94af25161432860769a4f3767ad62c"},
+    {file = "fake_useragent-2.2.0-py3-none-any.whl", hash = "sha256:67f35ca4d847b0d298187443aaf020413746e56acd985a611908c73dba2daa24"},
+    {file = "fake_useragent-2.2.0.tar.gz", hash = "sha256:4e6ab6571e40cc086d788523cf9e018f618d07f9050f822ff409a4dfe17c16b2"},
 ]
 
 [package.dependencies]
-importlib-resources = {version = ">=6.0", markers = "python_version < \"3.10\""}
+importlib-resources = {version = ">=6", markers = "python_version < \"3.10\""}
 
 [[package]]
 name = "flake8"
@@ -465,14 +465,14 @@ files = [
 
 [[package]]
 name = "trio"
-version = "0.29.0"
+version = "0.30.0"
 description = "A friendly Python library for async concurrency and I/O"
 optional = false
 python-versions = ">=3.9"
 groups = ["main", "dev"]
 files = [
-    {file = "trio-0.29.0-py3-none-any.whl", hash = "sha256:d8c463f1a9cc776ff63e331aba44c125f423a5a13c684307e828d930e625ba66"},
-    {file = "trio-0.29.0.tar.gz", hash = "sha256:ea0d3967159fc130acb6939a0be0e558e364fee26b5deeecc893a6b08c361bdf"},
+    {file = "trio-0.30.0-py3-none-any.whl", hash = "sha256:3bf4f06b8decf8d3cf00af85f40a89824669e2d033bb32469d34840edcfc22a5"},
+    {file = "trio-0.30.0.tar.gz", hash = "sha256:0781c857c0c81f8f51e0089929a26b5bb63d57f927728a5586f7e36171f064df"},
 ]
 
 [package.dependencies]
@@ -508,4 +508,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.9"
-content-hash = "831ce094339e9320d1a57aa86f64e37cf047885bf0d2c49c2348acaf2532a914"
+content-hash = "617f508f25d4bd5f560c4745d890878caf4d451d66c665ae1b7c952c2d47988d"

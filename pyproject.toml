@@ -32,8 +32,8 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.9"
-fake-useragent = ">=0.1.11,<2.2.0"
-trio = ">=0.16,<0.30"
+fake-useragent = ">=0.1.11,<2.3.0"
+trio = ">=0.16,<0.31"
 jk-triologging = "^0.2019.10"
 sh = ">=1.14,<3.0"
 
